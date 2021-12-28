@@ -6,7 +6,7 @@ using Data.Seeds;
 using System.IO;
 using System.Linq;
 
-namespace PaymentManager.Data.Entities
+namespace Data.Entities
 {
     public class InternshipAppDbContext : DbContext
     {
@@ -16,7 +16,9 @@ namespace PaymentManager.Data.Entities
 
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Resource> Resources { get; set; }
         public DbSet<Member> Members { get; set; }
+        public DbSet<Reaction> Reactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,10 +28,27 @@ namespace PaymentManager.Data.Entities
                 .WithMany(p => p.Posts)
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder
+                .Entity<Reaction>()
+                .HasOne(a => a.Reactor)
+                .WithMany(p => p.Reactions)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder
+                .Entity<Reaction>()
+                .HasOne(a => a.Post)
+                .WithMany(p => p.Reactions)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder
                 .Entity<Comment>()
-                .HasOne(a => a.Author)
+                .HasOne(a => a.Resource)
                 .WithMany(p => p.Comments)
                 .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder
+               .Entity<Comment>()
+               .HasOne(a => a.ParentComment)
+               .WithMany(p => p.Comments)
+               .OnDelete(DeleteBehavior.NoAction);
+            /*modelBuilder.Entity<Comment>().ToTable("Comments");
+            modelBuilder.Entity<Resource>().ToTable("Resources");*/
 
             DBSeed.Execute(modelBuilder);
             base.OnModelCreating(modelBuilder);

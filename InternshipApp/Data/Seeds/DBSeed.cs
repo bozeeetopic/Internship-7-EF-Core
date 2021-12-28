@@ -21,7 +21,7 @@ namespace Data.Seeds
                         Username = "HDZ",
                         Password = "",
                         ReputationPoints = 20000,
-                        isOrganiser = true
+                        IsOrganiser = true
                     },
                     new Member
                     {
@@ -31,7 +31,7 @@ namespace Data.Seeds
                         Username = "asdasd",
                         Password = "",
                         ReputationPoints = 10000,
-                        isOrganiser = false
+                        IsOrganiser = false
                     },
                     new Member
                     {
@@ -41,7 +41,7 @@ namespace Data.Seeds
                         Username = "asfffassf",
                         Password = "",
                         ReputationPoints = 0,
-                        isOrganiser = false
+                        IsOrganiser = false
                     },
                     new Member
                     {
@@ -51,14 +51,14 @@ namespace Data.Seeds
                         Username = "sd",
                         Password = "",
                         ReputationPoints = 0,
-                        isOrganiser = false
+                        IsOrganiser = false
                     }
                 });
 
-            builder.Entity<Post>()
-                .HasData(new List<Post>
+            builder.Entity<Resource>()
+                .HasData(new List<Resource>
                 {
-                    new Post
+                    new Resource
                     {
                         Id = 1,
                         AuthorId = 1,
@@ -67,7 +67,7 @@ namespace Data.Seeds
                         Text = "Hehehehehehehehehehe",
                         Domain = Domain.General
                     },
-                    new Post
+                    new Resource
                     {
                         Id = 2,
                         AuthorId = 1,
@@ -76,7 +76,7 @@ namespace Data.Seeds
                         Text = "hohohohhohohohohohohoho",
                         Domain = Domain.General
                     },
-                    new Post
+                    new Resource
                     {
                         Id = 3,
                         AuthorId = 2,
@@ -92,39 +92,72 @@ namespace Data.Seeds
                 {
                     new Comment
                     {
-                        Id = 1,
-                        AuthorId = 1,
-                        Date = new DateTime(2020, 5, 12),
-                        Text = "Hehehehehehehehehehe",
-                        PostId = 1,
-                        CommentId = null
-                    },
-                    new Comment
-                    {
-                        Id = 2,
-                        AuthorId = 2,
-                        Date = new DateTime(2020, 5, 12),
-                        Text = "Hehehehehehehehehehe",
-                        PostId = 1,
-                        CommentId = 1
-                    },
-                    new Comment
-                    {
-                        Id = 3,
-                        AuthorId = 3,
-                        Date = new DateTime(2020, 5, 12),
-                        Text = "Hehehehehehehehehehe",
-                        PostId = 1,
-                        CommentId = 2
-                    },
-                    new Comment
-                    {
                         Id = 4,
                         AuthorId = 1,
                         Date = new DateTime(2020, 5, 12),
-                        Text = "hohohohohoho",
-                        PostId = 2,
+                        Text = "Hehehehehehehehehehe",
+                        ResourceId = 1,
                         CommentId = null
+                    },
+                    new Comment
+                    {
+                        Id = 5,
+                        AuthorId = 2,
+                        Date = new DateTime(2020, 5, 12),
+                        Text = "Hehehehehehehehehehe",
+                        ResourceId = 1,
+                        CommentId = 4
+                    },
+                    new Comment
+                    {
+                        Id = 6,
+                        AuthorId = 3,
+                        Date = new DateTime(2020, 5, 12),
+                        Text = "Hehehehehehehehehehe",
+                        ResourceId = 1,
+                        CommentId = 5
+                    },
+                    new Comment
+                    {
+                        Id = 7,
+                        AuthorId = 1,
+                        Date = new DateTime(2020, 5, 12),
+                        Text = "hohohohohoho",
+                        ResourceId = 2,
+                        CommentId = null
+                    }
+                });
+
+            builder.Entity<Reaction>()
+                .HasData(new List<Reaction>
+                {
+                    new Reaction
+                    {
+                        Id = 1,
+                        ReactorId = 1,
+                        PostId = 1,
+                        IsUpVote = true
+                    },
+                    new Reaction
+                    {
+                       Id = 2,
+                        ReactorId = 1,
+                        PostId = 2,
+                        IsUpVote = true
+                    },
+                    new Reaction
+                    {
+                       Id = 3,
+                        ReactorId = 1,
+                        PostId = 3,
+                        IsUpVote = true
+                    },
+                    new Reaction
+                    {
+                        Id = 4,
+                        ReactorId = 1,
+                        PostId = 4,
+                        IsUpVote = true
                     }
                 });
         }
