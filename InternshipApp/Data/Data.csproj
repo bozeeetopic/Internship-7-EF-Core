@@ -17,8 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\Enums\" />
-    <Folder Include="Entities\Models\" />
     <Folder Include="Migrations\" />
     <Folder Include="Seeds\" />
   </ItemGroup>
