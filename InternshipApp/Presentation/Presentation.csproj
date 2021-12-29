@@ -21,7 +21,10 @@
     <Folder Include="Actions\" />
     <Folder Include="Extensions\" />
     <Folder Include="Factories\" />
-    <Folder Include="Helpers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 
 </Project>
