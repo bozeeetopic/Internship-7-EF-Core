@@ -2,11 +2,11 @@
 using Data.Entities;
 using System.Configuration;
 
-namespace PaymentManager.Domain.Factories
+namespace Domain.Factories
 {
     public static class DbContextFactory
     {
-        public static InternshipAppDbContext GetPaymentManagerDbContext()
+        public static InternshipAppDbContext GetInternshipAppDbContext()
         {
             var options = new DbContextOptionsBuilder()
                 .UseSqlServer(ConfigurationManager.ConnectionStrings["InternshipApp"].ConnectionString)
