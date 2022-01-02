@@ -11,9 +11,9 @@ namespace Data.Entities.Models
         public string Username { get; set; }
         public string Password { get; set; }
         public int ReputationPoints { get; set; }
-        public bool IsOrganiser { get; set; }
 
         public ICollection<Post> Posts { get; set; }
         public ICollection<Reaction> Reactions { get; set; }
+        public ICollection<Perceive> Perceptions { get; set; }
     }
 }

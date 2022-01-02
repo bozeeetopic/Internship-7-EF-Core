@@ -19,6 +19,7 @@ namespace Data.Entities
         public DbSet<Resource> Resources { get; set; }
         public DbSet<Member> Members { get; set; }
         public DbSet<Reaction> Reactions { get; set; }
+        public DbSet<Perceive> Perceptions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,6 +28,7 @@ namespace Data.Entities
                 .HasOne(a => a.Author)
                 .WithMany(p => p.Posts)
                 .OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder
                 .Entity<Reaction>()
                 .HasOne(a => a.Reactor)
@@ -37,6 +39,7 @@ namespace Data.Entities
                 .HasOne(a => a.Post)
                 .WithMany(p => p.Reactions)
                 .OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder
                 .Entity<Comment>()
                 .HasOne(a => a.Resource)
@@ -47,6 +50,18 @@ namespace Data.Entities
                .HasOne(a => a.ParentComment)
                .WithMany(p => p.Comments)
                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder
+                .Entity<Perceive>()
+                .HasOne(a => a.Perceiver)
+                .WithMany(p => p.Perceptions)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder
+                .Entity<Perceive>()
+                .HasOne(a => a.Resource)
+                .WithMany(p => p.Perceptions)
+                .OnDelete(DeleteBehavior.NoAction);
+
             /*modelBuilder.Entity<Comment>().ToTable("Comments");
             modelBuilder.Entity<Resource>().ToTable("Resources");*/
 

@@ -20,8 +20,7 @@ namespace Data.Seeds
                         Surname = "Sanader",
                         Username = "HDZ",
                         Password = "",
-                        ReputationPoints = 20000,
-                        IsOrganiser = true
+                        ReputationPoints = 1000000
                     },
                     new Member
                     {
@@ -30,8 +29,7 @@ namespace Data.Seeds
                         Surname = "Marjanovic",
                         Username = "asdasd",
                         Password = "",
-                        ReputationPoints = 10000,
-                        IsOrganiser = false
+                        ReputationPoints = 10000
                     },
                     new Member
                     {
@@ -40,8 +38,7 @@ namespace Data.Seeds
                         Surname = "Ivic",
                         Username = "asfffassf",
                         Password = "",
-                        ReputationPoints = 0,
-                        IsOrganiser = false
+                        ReputationPoints = 1
                     },
                     new Member
                     {
@@ -50,8 +47,7 @@ namespace Data.Seeds
                         Surname = "Peric",
                         Username = "sd",
                         Password = "",
-                        ReputationPoints = 0,
-                        IsOrganiser = false
+                        ReputationPoints = 1
                     }
                 });
 

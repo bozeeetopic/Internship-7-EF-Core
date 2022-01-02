@@ -22,7 +22,6 @@ namespace Presentation.Actions.AppStart
                 ConsoleHelpers.WriteInColor("" + character, ConsoleColor.Red);
                 Thread.Sleep(100);
             }
-            Environment.Exit(1);
             return null; 
         }
     }

@@ -156,11 +156,12 @@ namespace Presentation.Helpers.Intro
             DelayedInternshipPrint(ConsoleColor.Black, ConsoleColor.Gray, fadeSpeed);
             DelayedInternshipPrint(ConsoleColor.Black, ConsoleColor.White, 3000);
             _amogusSound.SoundLocation = Environment.CurrentDirectory + "/../../../Helpers/Intro/AmongUsIntro.wav";
-            _amogusSound.PlayLooping();
+            _amogusSound.Play();
             Thread.Sleep(300);
             PrintInternshipAppText(ConsoleColor.Red, ConsoleColor.White);
             Thread.Sleep(4400);
             Console.Clear();
+            _amogusSound.Stop();
         }
 
         public static void PrintIntro(int animationSpeed, int fadeSpeed)
