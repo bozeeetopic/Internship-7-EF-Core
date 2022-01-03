@@ -31,34 +31,34 @@ namespace Data.Entities
 
             modelBuilder
                 .Entity<Reaction>()
-                .HasOne(a => a.Reactor)
-                .WithMany(p => p.Reactions)
+                .HasOne(r => r.Reactor)
+                .WithMany(rs => rs.Reactions)
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder
                 .Entity<Reaction>()
-                .HasOne(a => a.Post)
-                .WithMany(p => p.Reactions)
+                .HasOne(p => p.Post)
+                .WithMany(r => r.Reactions)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder
                 .Entity<Comment>()
-                .HasOne(a => a.Resource)
-                .WithMany(p => p.Comments)
+                .HasOne(r => r.Resource)
+                .WithMany(c => c.Comments)
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder
                .Entity<Comment>()
-               .HasOne(a => a.ParentComment)
-               .WithMany(p => p.Comments)
+               .HasOne(pc => pc.ParentComment)
+               .WithMany(c => c.Comments)
                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder
                 .Entity<Perceive>()
-                .HasOne(a => a.Perceiver)
-                .WithMany(p => p.Perceptions)
+                .HasOne(p => p.Perceiver)
+                .WithMany(pp => pp.Perceptions)
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder
                 .Entity<Perceive>()
-                .HasOne(a => a.Resource)
+                .HasOne(r => r.Resource)
                 .WithMany(p => p.Perceptions)
                 .OnDelete(DeleteBehavior.NoAction);
 

@@ -61,7 +61,10 @@ namespace Data.Seeds
                         Header = "Hehe",
                         Date = new DateTime(2020, 2, 12),
                         Text = "Hehehehehehehehehehe",
-                        Domain = Domain.General
+                        Domain = ResourceDomain.General,
+                        SeenCounter = 4,
+                        UpVotes = 3,
+                        DownVotes = 1
                     },
                     new Resource
                     {
@@ -70,7 +73,10 @@ namespace Data.Seeds
                         Header = "Hoho",
                         Date = new DateTime(2020, 3, 12),
                         Text = "hohohohhohohohohohohoho",
-                        Domain = Domain.General
+                        Domain = ResourceDomain.General,
+                        SeenCounter = 4,
+                        UpVotes = 3,
+                        DownVotes = 1
                     },
                     new Resource
                     {
@@ -79,7 +85,10 @@ namespace Data.Seeds
                         Header = "Nešto smisleno",
                         Date = new DateTime(2020, 4, 12),
                         Text = "Lorem ipsum or sumtin",
-                        Domain = Domain.Marketing
+                        Domain = ResourceDomain.Marketing,
+                        SeenCounter = 4,
+                        UpVotes = 3,
+                        DownVotes = 1
                     }
                 }) ;
 
@@ -93,7 +102,9 @@ namespace Data.Seeds
                         Date = new DateTime(2020, 5, 12),
                         Text = "Hehehehehehehehehehe",
                         ResourceId = 1,
-                        CommentId = null
+                        CommentId = null,
+                        UpVotes = 3,
+                        DownVotes = 1
                     },
                     new Comment
                     {
@@ -102,7 +113,9 @@ namespace Data.Seeds
                         Date = new DateTime(2020, 5, 12),
                         Text = "Hehehehehehehehehehe",
                         ResourceId = 1,
-                        CommentId = 4
+                        CommentId = 4,
+                        UpVotes = 3,
+                        DownVotes = 1
                     },
                     new Comment
                     {
@@ -111,7 +124,9 @@ namespace Data.Seeds
                         Date = new DateTime(2020, 5, 12),
                         Text = "Hehehehehehehehehehe",
                         ResourceId = 1,
-                        CommentId = 5
+                        CommentId = 5,
+                        UpVotes = 3,
+                        DownVotes = 1
                     },
                     new Comment
                     {
@@ -120,7 +135,9 @@ namespace Data.Seeds
                         Date = new DateTime(2020, 5, 12),
                         Text = "hohohohohoho",
                         ResourceId = 2,
-                        CommentId = null
+                        CommentId = null,
+                        UpVotes = 3,
+                        DownVotes = 1
                     }
                 });
 
@@ -154,6 +171,29 @@ namespace Data.Seeds
                         ReactorId = 1,
                         PostId = 4,
                         IsUpVote = true
+                    }
+                });
+
+            builder.Entity<Perceive>()
+                .HasData(new List<Perceive>
+                {
+                    new Perceive
+                    {
+                        Id = 1,
+                        PerceiverId = 1,
+                        ResourceId = 1
+                    },
+                    new Perceive
+                    {
+                        Id = 2,
+                        PerceiverId = 1,
+                        ResourceId = 2
+                    },
+                    new Perceive
+                    {
+                        Id = 3,
+                        PerceiverId = 1,
+                        ResourceId = 3
                     }
                 });
         }

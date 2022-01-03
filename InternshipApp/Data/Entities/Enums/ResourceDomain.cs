@@ -1,6 +1,6 @@
 ﻿namespace Data.Entities.Enums
 {
-    public enum Domain
+    public enum ResourceDomain
     {
         Dev,
         Design,
