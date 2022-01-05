@@ -42,8 +42,8 @@ namespace Domain.Repositories
                 {
                     Header = resourceDetails.Header,
                     Domain = resourceDetails.Domain,
-                    Username = perceiverDetails.Username,
-                    FullName = perceiverDetails.PerceiverFullName,
+                    //Username = perceiverDetails.Username,
+                    //FullName = perceiverDetails.PerceiverFullName,
                 })
                 .FirstOrDefault();
 

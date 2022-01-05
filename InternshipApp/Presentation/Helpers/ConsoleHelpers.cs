@@ -35,5 +35,16 @@ namespace Presentation.Helpers
             }
             return stringToReturn;
         }
+        public static bool ForbiddenStringChecker(string stringBeingChecked, string forbiddenCharacters)
+        {
+            foreach (var character in forbiddenCharacters)
+            {
+                if (stringBeingChecked.Contains(character))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

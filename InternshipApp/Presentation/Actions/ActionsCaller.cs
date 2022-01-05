@@ -40,6 +40,7 @@ namespace Presentation.Actions
             }
             Console.WriteLine();
             var choice = Reader.UserNumberInput("vaš izbor", 1, actions.Count);
+            Console.Clear();
             actions[choice - 1].action();
         }
     }
