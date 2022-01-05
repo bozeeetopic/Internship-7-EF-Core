@@ -24,7 +24,7 @@ namespace Presentation.Actions.ActionHelpers
                 i++;
             }
         }
-        public static  void GenericMenu(List<Template> InputsList, Action<List<Template>, int> action)
+        public static  void GenericMenu(List<Template> InputsList)
         {
             while (true)
             {
@@ -38,11 +38,12 @@ namespace Presentation.Actions.ActionHelpers
                         {
                             break;
                         }
-                        action(InputsList, choiceActionIndex);
+                        Console.Clear();
+                        InputsList[choiceActionIndex].Function();
                         break;
                     case InputStatus.Done:
                     case InputStatus.WaitingForInput:
-                        action(InputsList, choiceActionIndex);
+                        InputsList[choiceActionIndex].Function();
                         break;
                     case InputStatus.Error:
                         Console.WriteLine("Odabrana akcija trenutno nije moguća!");

@@ -27,7 +27,6 @@ namespace Presentation.Actions.AppStart
             actions[3].Status = InputStatus.Warning;
             return;
         }
-
         public static void PasswordInput(List<Template> actions)
         {
             var password = Reader.UserStringInput("lozinku", "", 0);

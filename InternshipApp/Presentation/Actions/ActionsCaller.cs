@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Presentation.Actions.AppStart;
 using Presentation.Actions.Dashboard;
 using Presentation.Helpers;
+using Data.Entities.Enums;
 
 namespace Presentation.Actions
 {
@@ -18,25 +19,17 @@ namespace Presentation.Actions
         {
             { ("Resursi", () => DashboardAction.Resources()) },
             { ("Korisnici", () => DashboardAction.Users()) },
-            { ("Neodgovoreno", () => DashboardAction.NoComment()) },
+            { ("Neodgovoreno", () => DashboardAction.ResourcesWithNoComments()) },
             { ("Moj profil", () => DashboardAction.MyProfile()) },
             { ("Logout", () => DashboardAction.LogOut())},
         };
-        /*public static Dictionary<string, Action> ResourceActions = new()
-        {
-            { "Resursi", Login() },
-            { "Korisnici", Register() },
-            { "Neodgovoreno", Exit() },
-            { "Moj profil", Exit() },s
-            { "Logout", Exit() },
-        };*/
+
         public static void PrintMenuAndDoAction(List<(string name, Action action)> actions)
         {
-            var i = 1;
-            foreach (var action in actions)
+            Console.Clear();
+            for(var index = 0; index < actions.Count; index++)
             {
-                Console.WriteLine($"{i} - {action.name}");
-                i++;
+                Console.WriteLine($"{index+1} - {actions[index].name}");
             }
             Console.WriteLine();
             var choice = Reader.UserNumberInput("vaš izbor", 1, actions.Count);

@@ -26,9 +26,6 @@ namespace Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("IsOrganiser")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -52,17 +49,15 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1,
-                            IsOrganiser = true,
                             Name = "Ivo",
                             Password = "",
-                            ReputationPoints = 20000,
+                            ReputationPoints = 1000000,
                             Surname = "Sanader",
                             Username = "HDZ"
                         },
                         new
                         {
                             Id = 2,
-                            IsOrganiser = false,
                             Name = "Marjan",
                             Password = "",
                             ReputationPoints = 10000,
@@ -72,22 +67,62 @@ namespace Data.Migrations
                         new
                         {
                             Id = 3,
-                            IsOrganiser = false,
                             Name = "Ivo",
                             Password = "",
-                            ReputationPoints = 0,
+                            ReputationPoints = 1,
                             Surname = "Ivic",
                             Username = "asfffassf"
                         },
                         new
                         {
                             Id = 4,
-                            IsOrganiser = false,
                             Name = "Pero",
                             Password = "",
-                            ReputationPoints = 0,
+                            ReputationPoints = 1,
                             Surname = "Peric",
                             Username = "sd"
+                        });
+                });
+
+            modelBuilder.Entity("Data.Entities.Models.Perceive", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("PerceiverId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ResourceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PerceiverId");
+
+                    b.HasIndex("ResourceId");
+
+                    b.ToTable("Perceptions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PerceiverId = 1,
+                            ResourceId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PerceiverId = 1,
+                            ResourceId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            PerceiverId = 1,
+                            ResourceId = 3
                         });
                 });
 
@@ -203,9 +238,9 @@ namespace Data.Migrations
                             Id = 4,
                             AuthorId = 1,
                             Date = new DateTime(2020, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DownVotes = 0,
+                            DownVotes = 1,
                             Text = "Hehehehehehehehehehe",
-                            UpVotes = 0,
+                            UpVotes = 3,
                             ResourceId = 1
                         },
                         new
@@ -213,9 +248,9 @@ namespace Data.Migrations
                             Id = 5,
                             AuthorId = 2,
                             Date = new DateTime(2020, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DownVotes = 0,
+                            DownVotes = 1,
                             Text = "Hehehehehehehehehehe",
-                            UpVotes = 0,
+                            UpVotes = 3,
                             CommentId = 4,
                             ResourceId = 1
                         },
@@ -224,9 +259,9 @@ namespace Data.Migrations
                             Id = 6,
                             AuthorId = 3,
                             Date = new DateTime(2020, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DownVotes = 0,
+                            DownVotes = 1,
                             Text = "Hehehehehehehehehehe",
-                            UpVotes = 0,
+                            UpVotes = 3,
                             CommentId = 5,
                             ResourceId = 1
                         },
@@ -235,9 +270,9 @@ namespace Data.Migrations
                             Id = 7,
                             AuthorId = 1,
                             Date = new DateTime(2020, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DownVotes = 0,
+                            DownVotes = 1,
                             Text = "hohohohohoho",
-                            UpVotes = 0,
+                            UpVotes = 3,
                             ResourceId = 2
                         });
                 });
@@ -252,6 +287,9 @@ namespace Data.Migrations
                     b.Property<string>("Header")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("SeenCounter")
+                        .HasColumnType("int");
+
                     b.HasDiscriminator().HasValue("Resource");
 
                     b.HasData(
@@ -260,34 +298,56 @@ namespace Data.Migrations
                             Id = 1,
                             AuthorId = 1,
                             Date = new DateTime(2020, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DownVotes = 0,
+                            DownVotes = 1,
                             Text = "Hehehehehehehehehehe",
-                            UpVotes = 0,
+                            UpVotes = 3,
                             Domain = 4,
-                            Header = "Hehe"
+                            Header = "Hehe",
+                            SeenCounter = 4
                         },
                         new
                         {
                             Id = 2,
                             AuthorId = 1,
                             Date = new DateTime(2020, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DownVotes = 0,
+                            DownVotes = 1,
                             Text = "hohohohhohohohohohohoho",
-                            UpVotes = 0,
+                            UpVotes = 3,
                             Domain = 4,
-                            Header = "Hoho"
+                            Header = "Hoho",
+                            SeenCounter = 4
                         },
                         new
                         {
                             Id = 3,
                             AuthorId = 2,
                             Date = new DateTime(2020, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DownVotes = 0,
+                            DownVotes = 1,
                             Text = "Lorem ipsum or sumtin",
-                            UpVotes = 0,
+                            UpVotes = 3,
                             Domain = 3,
-                            Header = "Nešto smisleno"
+                            Header = "Nešto smisleno",
+                            SeenCounter = 4
                         });
+                });
+
+            modelBuilder.Entity("Data.Entities.Models.Perceive", b =>
+                {
+                    b.HasOne("Data.Entities.Models.Member", "Perceiver")
+                        .WithMany("Perceptions")
+                        .HasForeignKey("PerceiverId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Data.Entities.Models.Resource", "Resource")
+                        .WithMany("Perceptions")
+                        .HasForeignKey("ResourceId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Perceiver");
+
+                    b.Navigation("Resource");
                 });
 
             modelBuilder.Entity("Data.Entities.Models.Post", b =>
@@ -340,6 +400,8 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Models.Member", b =>
                 {
+                    b.Navigation("Perceptions");
+
                     b.Navigation("Posts");
 
                     b.Navigation("Reactions");
@@ -358,6 +420,8 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Entities.Models.Resource", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Perceptions");
                 });
 #pragma warning restore 612, 618
         }

@@ -53,6 +53,18 @@ namespace Presentation.Actions.AppStart
             RepositoryFactory.Create<MemberBase>().Add(CurrentUser.User);
             ActionsCaller.PrintMenuAndDoAction(ActionsCaller.DashboardActions);
         }
+        public static void SetPassword(List<Template> actions)
+        {
+            CurrentUser.User.Password = UserPropertiesInput(actions, 1);
+        }
+        public static void SetName(List<Template> actions)
+        {
+            CurrentUser.User.Name = UserPropertiesInput(actions, 2);
+        }
+        public static void SetSurname(List<Template> actions)
+        {
+            CurrentUser.User.Surname = UserPropertiesInput(actions, 3);
+        }
 
     }
 }
