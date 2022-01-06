@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(InternshipAppDbContext))]
-    [Migration("20220105013154_initial")]
-    partial class initial
+    [Migration("20220106211822_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,6 +27,9 @@ namespace Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("BannedUntil")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -51,6 +54,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1,
+                            BannedUntil = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Ivo",
                             Password = "",
                             ReputationPoints = 1000000,
@@ -60,6 +64,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 2,
+                            BannedUntil = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Marjan",
                             Password = "",
                             ReputationPoints = 10000,
@@ -69,6 +74,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 3,
+                            BannedUntil = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Ivo",
                             Password = "",
                             ReputationPoints = 1,
@@ -78,6 +84,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 4,
+                            BannedUntil = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Pero",
                             Password = "",
                             ReputationPoints = 1,
@@ -145,14 +152,8 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DownVotes")
-                        .HasColumnType("int");
-
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UpVotes")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -170,18 +171,18 @@ namespace Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsUpVote")
                         .HasColumnType("bit");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
 
                     b.Property<int>("ReactorId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PostId");
+                    b.HasIndex("CommentId");
 
                     b.HasIndex("ReactorId");
 
@@ -191,29 +192,29 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1,
+                            CommentId = 4,
                             IsUpVote = true,
-                            PostId = 1,
                             ReactorId = 1
                         },
                         new
                         {
                             Id = 2,
+                            CommentId = 5,
                             IsUpVote = true,
-                            PostId = 2,
                             ReactorId = 1
                         },
                         new
                         {
                             Id = 3,
+                            CommentId = 6,
                             IsUpVote = true,
-                            PostId = 3,
                             ReactorId = 1
                         },
                         new
                         {
                             Id = 4,
+                            CommentId = 7,
                             IsUpVote = true,
-                            PostId = 4,
                             ReactorId = 1
                         });
                 });
@@ -225,7 +226,13 @@ namespace Data.Migrations
                     b.Property<int?>("CommentId")
                         .HasColumnType("int");
 
+                    b.Property<int>("DownVotes")
+                        .HasColumnType("int");
+
                     b.Property<int>("ResourceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UpVotes")
                         .HasColumnType("int");
 
                     b.HasIndex("CommentId");
@@ -240,42 +247,42 @@ namespace Data.Migrations
                             Id = 4,
                             AuthorId = 1,
                             Date = new DateTime(2020, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DownVotes = 1,
                             Text = "Hehehehehehehehehehe",
-                            UpVotes = 3,
-                            ResourceId = 1
+                            DownVotes = 1,
+                            ResourceId = 1,
+                            UpVotes = 3
                         },
                         new
                         {
                             Id = 5,
                             AuthorId = 2,
                             Date = new DateTime(2020, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DownVotes = 1,
                             Text = "Hehehehehehehehehehe",
-                            UpVotes = 3,
                             CommentId = 4,
-                            ResourceId = 1
+                            DownVotes = 1,
+                            ResourceId = 1,
+                            UpVotes = 3
                         },
                         new
                         {
                             Id = 6,
                             AuthorId = 3,
                             Date = new DateTime(2020, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DownVotes = 1,
                             Text = "Hehehehehehehehehehe",
-                            UpVotes = 3,
                             CommentId = 5,
-                            ResourceId = 1
+                            DownVotes = 1,
+                            ResourceId = 1,
+                            UpVotes = 3
                         },
                         new
                         {
                             Id = 7,
                             AuthorId = 1,
                             Date = new DateTime(2020, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DownVotes = 1,
                             Text = "hohohohohoho",
-                            UpVotes = 3,
-                            ResourceId = 2
+                            DownVotes = 1,
+                            ResourceId = 2,
+                            UpVotes = 3
                         });
                 });
 
@@ -300,9 +307,7 @@ namespace Data.Migrations
                             Id = 1,
                             AuthorId = 1,
                             Date = new DateTime(2020, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DownVotes = 1,
                             Text = "Hehehehehehehehehehe",
-                            UpVotes = 3,
                             Domain = 4,
                             Header = "Hehe",
                             SeenCounter = 4
@@ -312,9 +317,7 @@ namespace Data.Migrations
                             Id = 2,
                             AuthorId = 1,
                             Date = new DateTime(2020, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DownVotes = 1,
                             Text = "hohohohhohohohohohohoho",
-                            UpVotes = 3,
                             Domain = 4,
                             Header = "Hoho",
                             SeenCounter = 4
@@ -324,9 +327,7 @@ namespace Data.Migrations
                             Id = 3,
                             AuthorId = 2,
                             Date = new DateTime(2020, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DownVotes = 1,
                             Text = "Lorem ipsum or sumtin",
-                            UpVotes = 3,
                             Domain = 3,
                             Header = "Nešto smisleno",
                             SeenCounter = 4
@@ -365,9 +366,9 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Models.Reaction", b =>
                 {
-                    b.HasOne("Data.Entities.Models.Post", "Post")
+                    b.HasOne("Data.Entities.Models.Comment", "Comment")
                         .WithMany("Reactions")
-                        .HasForeignKey("PostId")
+                        .HasForeignKey("CommentId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -377,7 +378,7 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Post");
+                    b.Navigation("Comment");
 
                     b.Navigation("Reactor");
                 });
@@ -409,14 +410,11 @@ namespace Data.Migrations
                     b.Navigation("Reactions");
                 });
 
-            modelBuilder.Entity("Data.Entities.Models.Post", b =>
-                {
-                    b.Navigation("Reactions");
-                });
-
             modelBuilder.Entity("Data.Entities.Models.Comment", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Reactions");
                 });
 
             modelBuilder.Entity("Data.Entities.Models.Resource", b =>

@@ -22,6 +22,11 @@ namespace Presentation.Actions.AppStart
                 Console.WriteLine("Ne postoji korisnik sa unesenim korisničkim imenom!");
                 return;
             }
+            if (CurrentUser.User.BannedUntil < DateTime.Now)
+            {
+                Console.WriteLine("Korištenje aplikacije je trenutno zabranjeno navedenom korisniku!");
+                return;
+            }
             actions[0].Status = InputStatus.Done;
             actions[1].Status = InputStatus.WaitingForInput;
             actions[3].Status = InputStatus.Warning;

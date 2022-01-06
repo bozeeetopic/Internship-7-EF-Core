@@ -1,4 +1,5 @@
 ﻿using Data.Entities.Enums;
+using Domain.Models;
 
 namespace Domain.Enums
 {
@@ -12,24 +13,29 @@ namespace Domain.Enums
             Marketing,
             General
         }
-        public static ResourceDomain Get(ResourceTypes choice)
+        public static void Set(ResourceTypes choice)
         {
+            CurrentResource.Resource = new();
             switch (choice)
             {
                 case ResourceTypes.Dev:
-                    return ResourceDomain.Dev;
+                    CurrentResource.ResourceDomain = ResourceDomain.Dev;
+                    break;
                 case ResourceTypes.Marketing:
-                    return ResourceDomain.Marketing;
+                    CurrentResource.ResourceDomain = ResourceDomain.Marketing;
+                    break;
                 case ResourceTypes.Multimedia:
-                    return ResourceDomain.Multimedia;
+                    CurrentResource.ResourceDomain = ResourceDomain.Multimedia;
+                    break;
                 case ResourceTypes.Design:
-                    return ResourceDomain.Design;
+                    CurrentResource.ResourceDomain = ResourceDomain.Design;
+                    break;
                 case ResourceTypes.General:
-                    return ResourceDomain.General;
+                    CurrentResource.ResourceDomain = ResourceDomain.General;
+                    break;
                 default:
                     break;
             }
-            return ResourceDomain.General;
         }
     }
 }

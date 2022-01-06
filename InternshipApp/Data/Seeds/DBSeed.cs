@@ -20,7 +20,8 @@ namespace Data.Seeds
                         Surname = "Sanader",
                         Username = "HDZ",
                         Password = "",
-                        ReputationPoints = 1000000
+                        ReputationPoints = 1000000,
+                        BannedUntil = DateTime.Now
                     },
                     new Member
                     {
@@ -29,7 +30,8 @@ namespace Data.Seeds
                         Surname = "Marjanovic",
                         Username = "asdasd",
                         Password = "",
-                        ReputationPoints = 10000
+                        ReputationPoints = 10000,
+                        BannedUntil = DateTime.Now
                     },
                     new Member
                     {
@@ -38,7 +40,8 @@ namespace Data.Seeds
                         Surname = "Ivic",
                         Username = "asfffassf",
                         Password = "",
-                        ReputationPoints = 1
+                        ReputationPoints = 1,
+                        BannedUntil = DateTime.Now
                     },
                     new Member
                     {
@@ -47,7 +50,8 @@ namespace Data.Seeds
                         Surname = "Peric",
                         Username = "sd",
                         Password = "",
-                        ReputationPoints = 1
+                        ReputationPoints = 1,
+                        BannedUntil = DateTime.Now
                     }
                 });
 
@@ -62,9 +66,7 @@ namespace Data.Seeds
                         Date = new DateTime(2020, 2, 12),
                         Text = "Hehehehehehehehehehe",
                         Domain = ResourceDomain.General,
-                        SeenCounter = 4,
-                        UpVotes = 3,
-                        DownVotes = 1
+                        SeenCounter = 4
                     },
                     new Resource
                     {
@@ -74,9 +76,7 @@ namespace Data.Seeds
                         Date = new DateTime(2020, 3, 12),
                         Text = "hohohohhohohohohohohoho",
                         Domain = ResourceDomain.General,
-                        SeenCounter = 4,
-                        UpVotes = 3,
-                        DownVotes = 1
+                        SeenCounter = 4
                     },
                     new Resource
                     {
@@ -86,9 +86,7 @@ namespace Data.Seeds
                         Date = new DateTime(2020, 4, 12),
                         Text = "Lorem ipsum or sumtin",
                         Domain = ResourceDomain.Marketing,
-                        SeenCounter = 4,
-                        UpVotes = 3,
-                        DownVotes = 1
+                        SeenCounter = 4
                     }
                 }) ;
 
@@ -148,28 +146,28 @@ namespace Data.Seeds
                     {
                         Id = 1,
                         ReactorId = 1,
-                        PostId = 1,
+                        CommentId = 4,
                         IsUpVote = true
                     },
                     new Reaction
                     {
                        Id = 2,
                         ReactorId = 1,
-                        PostId = 2,
+                        CommentId = 5,
                         IsUpVote = true
                     },
                     new Reaction
                     {
                        Id = 3,
                         ReactorId = 1,
-                        PostId = 3,
+                        CommentId = 6,
                         IsUpVote = true
                     },
                     new Reaction
                     {
                         Id = 4,
                         ReactorId = 1,
-                        PostId = 4,
+                        CommentId = 7,
                         IsUpVote = true
                     }
                 });

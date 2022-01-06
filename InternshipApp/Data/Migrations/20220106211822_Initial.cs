@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +17,8 @@ namespace Data.Migrations
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ReputationPoints = table.Column<int>(type: "int", nullable: false)
+                    ReputationPoints = table.Column<int>(type: "int", nullable: false),
+                    BannedUntil = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,10 +33,10 @@ namespace Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpVotes = table.Column<int>(type: "int", nullable: false),
-                    DownVotes = table.Column<int>(type: "int", nullable: false),
                     AuthorId = table.Column<int>(type: "int", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UpVotes = table.Column<int>(type: "int", nullable: true),
+                    DownVotes = table.Column<int>(type: "int", nullable: true),
                     ResourceId = table.Column<int>(type: "int", nullable: true),
                     CommentId = table.Column<int>(type: "int", nullable: true),
                     Header = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -94,7 +95,7 @@ namespace Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IsUpVote = table.Column<bool>(type: "bit", nullable: false),
                     ReactorId = table.Column<int>(type: "int", nullable: false),
-                    PostId = table.Column<int>(type: "int", nullable: false)
+                    CommentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -105,37 +106,37 @@ namespace Data.Migrations
                         principalTable: "Members",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Reactions_Posts_PostId",
-                        column: x => x.PostId,
+                        name: "FK_Reactions_Posts_CommentId",
+                        column: x => x.CommentId,
                         principalTable: "Posts",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
                 table: "Members",
-                columns: new[] { "Id", "Name", "Password", "ReputationPoints", "Surname", "Username" },
+                columns: new[] { "Id", "BannedUntil", "Name", "Password", "ReputationPoints", "Surname", "Username" },
                 values: new object[,]
                 {
-                    { 1, "Ivo", "", 1000000, "Sanader", "HDZ" },
-                    { 2, "Marjan", "", 10000, "Marjanovic", "asdasd" },
-                    { 3, "Ivo", "", 1, "Ivic", "asfffassf" },
-                    { 4, "Pero", "", 1, "Peric", "sd" }
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ivo", "", 1000000, "Sanader", "HDZ" },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Marjan", "", 10000, "Marjanovic", "asdasd" },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ivo", "", 1, "Ivic", "asfffassf" },
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pero", "", 1, "Peric", "sd" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Posts",
-                columns: new[] { "Id", "AuthorId", "Date", "Discriminator", "Domain", "DownVotes", "Header", "SeenCounter", "Text", "UpVotes" },
-                values: new object[] { 1, 1, new DateTime(2020, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "Resource", 4, 1, "Hehe", 4, "Hehehehehehehehehehe", 3 });
+                columns: new[] { "Id", "AuthorId", "Date", "Discriminator", "Domain", "Header", "SeenCounter", "Text" },
+                values: new object[] { 1, 1, new DateTime(2020, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "Resource", 4, "Hehe", 4, "Hehehehehehehehehehe" });
 
             migrationBuilder.InsertData(
                 table: "Posts",
-                columns: new[] { "Id", "AuthorId", "Date", "Discriminator", "Domain", "DownVotes", "Header", "SeenCounter", "Text", "UpVotes" },
-                values: new object[] { 2, 1, new DateTime(2020, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "Resource", 4, 1, "Hoho", 4, "hohohohhohohohohohohoho", 3 });
+                columns: new[] { "Id", "AuthorId", "Date", "Discriminator", "Domain", "Header", "SeenCounter", "Text" },
+                values: new object[] { 2, 1, new DateTime(2020, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "Resource", 4, "Hoho", 4, "hohohohhohohohohohohoho" });
 
             migrationBuilder.InsertData(
                 table: "Posts",
-                columns: new[] { "Id", "AuthorId", "Date", "Discriminator", "Domain", "DownVotes", "Header", "SeenCounter", "Text", "UpVotes" },
-                values: new object[] { 3, 2, new DateTime(2020, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "Resource", 3, 1, "Nešto smisleno", 4, "Lorem ipsum or sumtin", 3 });
+                columns: new[] { "Id", "AuthorId", "Date", "Discriminator", "Domain", "Header", "SeenCounter", "Text" },
+                values: new object[] { 3, 2, new DateTime(2020, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "Resource", 3, "Nešto smisleno", 4, "Lorem ipsum or sumtin" });
 
             migrationBuilder.InsertData(
                 table: "Perceptions",
@@ -157,29 +158,34 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Reactions",
-                columns: new[] { "Id", "IsUpVote", "PostId", "ReactorId" },
-                values: new object[,]
-                {
-                    { 1, true, 1, 1 },
-                    { 2, true, 2, 1 },
-                    { 3, true, 3, 1 }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Posts",
                 columns: new[] { "Id", "AuthorId", "CommentId", "Date", "Discriminator", "DownVotes", "ResourceId", "Text", "UpVotes" },
                 values: new object[] { 5, 2, 4, new DateTime(2020, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "Comment", 1, 1, "Hehehehehehehehehehe", 3 });
 
             migrationBuilder.InsertData(
                 table: "Reactions",
-                columns: new[] { "Id", "IsUpVote", "PostId", "ReactorId" },
-                values: new object[] { 4, true, 4, 1 });
+                columns: new[] { "Id", "CommentId", "IsUpVote", "ReactorId" },
+                values: new object[] { 1, 4, true, 1 });
+
+            migrationBuilder.InsertData(
+                table: "Reactions",
+                columns: new[] { "Id", "CommentId", "IsUpVote", "ReactorId" },
+                values: new object[] { 4, 7, true, 1 });
 
             migrationBuilder.InsertData(
                 table: "Posts",
                 columns: new[] { "Id", "AuthorId", "CommentId", "Date", "Discriminator", "DownVotes", "ResourceId", "Text", "UpVotes" },
                 values: new object[] { 6, 3, 5, new DateTime(2020, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "Comment", 1, 1, "Hehehehehehehehehehe", 3 });
+
+            migrationBuilder.InsertData(
+                table: "Reactions",
+                columns: new[] { "Id", "CommentId", "IsUpVote", "ReactorId" },
+                values: new object[] { 2, 5, true, 1 });
+
+            migrationBuilder.InsertData(
+                table: "Reactions",
+                columns: new[] { "Id", "CommentId", "IsUpVote", "ReactorId" },
+                values: new object[] { 3, 6, true, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Perceptions_PerceiverId",
@@ -207,9 +213,9 @@ namespace Data.Migrations
                 column: "ResourceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reactions_PostId",
+                name: "IX_Reactions_CommentId",
                 table: "Reactions",
-                column: "PostId");
+                column: "CommentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reactions_ReactorId",

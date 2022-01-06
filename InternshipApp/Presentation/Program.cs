@@ -7,7 +7,7 @@ namespace PaymentManager.Presentation
     {
         static void Main()
         {
-            IntroAnimation.PrintIntro( 100, 300);
+            //IntroAnimation.PrintIntro( 100, 300);
             ActionsCaller.PrintMenuAndDoAction(ActionsCaller.AppStartActions);
         }
     }

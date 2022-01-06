@@ -36,7 +36,7 @@ namespace Data.Entities
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder
                 .Entity<Reaction>()
-                .HasOne(p => p.Post)
+                .HasOne(p => p.Comment)
                 .WithMany(r => r.Reactions)
                 .OnDelete(DeleteBehavior.NoAction);
 

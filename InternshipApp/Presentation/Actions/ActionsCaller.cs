@@ -17,9 +17,9 @@ namespace Presentation.Actions
         };
         public static readonly List<(string, Action)> DashboardActions = new()
         {
-            { ("Resursi", () => DashboardAction.Resources()) },
-            { ("Korisnici", () => DashboardAction.Users()) },
-            { ("Neodgovoreno", () => DashboardAction.ResourcesWithNoComments()) },
+            { ("Resursi", () => DashboardAction.ChooseDomainAndListResourceAction(true)) },
+            //{ ("Korisnici", () => DashboardAction.Users()) },
+            { ("Neodgovoreno", () => DashboardAction.ChooseDomainAndListResourceAction(false)) },
             { ("Moj profil", () => DashboardAction.MyProfile()) },
             { ("Logout", () => DashboardAction.LogOut())},
         };

@@ -13,21 +13,21 @@ namespace Presentation.Actions.AppStart
     {
         public static void Login()
         {
-            List<Template> InputsList = new()
+            List<Template> actions = new()
             {   
                 new(){ Status = InputStatus.WaitingForInput,Name= "Unos korisničkog imena", Function = null},
                 new() { Status = InputStatus.Error, Name = "Unos šifre", Function = null},
                 new() { Status = InputStatus.Error, Name = "Login", Function = () => ActionsCaller.PrintMenuAndDoAction(ActionsCaller.DashboardActions) },
                 new() { Status = InputStatus.WaitingForInput, Name = "Izlaz", Function = () => ActionsCaller.PrintMenuAndDoAction(ActionsCaller.AppStartActions) }
             };
-            InputsList[0].Function = () => LoginActions.UsernameInput(InputsList);
-            InputsList[1].Function = () => LoginActions.PasswordInput(InputsList);
+            actions[0].Function = () => LoginActions.UsernameInput(actions);
+            actions[1].Function = () => LoginActions.PasswordInput(actions);
 
-            ActionsHelper.GenericMenu(InputsList);
+            ActionsHelper.GenericMenu(actions,"");
         }
         public static void Register()
         {
-            List<Template> InputsList = new()
+            List<Template> actions = new()
             {
                 new() { Status = InputStatus.WaitingForInput, Name = "Unos korisničkog imena", Function = null },
                 new() { Status = InputStatus.WaitingForInput, Name = "Unos šifre", Function = null },
@@ -36,13 +36,13 @@ namespace Presentation.Actions.AppStart
                 new() { Status = InputStatus.Error, Name = "Register", Function = () => RegisterActions.Register() },
                 new() { Status = InputStatus.WaitingForInput, Name = "Izlaz", Function = () => ActionsCaller.PrintMenuAndDoAction(ActionsCaller.AppStartActions) }
             };
-            InputsList[0].Function = () => RegisterActions.UsernameInput(InputsList);
-            InputsList[1].Function = () => RegisterActions.SetPassword(InputsList);
-            InputsList[2].Function = () => RegisterActions.SetName(InputsList);
-            InputsList[3].Function = () => RegisterActions.SetSurname(InputsList);
+            actions[0].Function = () => RegisterActions.UsernameInput(actions);
+            actions[1].Function = () => RegisterActions.SetPassword(actions);
+            actions[2].Function = () => RegisterActions.SetName(actions);
+            actions[3].Function = () => RegisterActions.SetSurname(actions);
 
             CurrentUser.User = new();
-            ActionsHelper.GenericMenu(InputsList);
+            ActionsHelper.GenericMenu(actions,"");
         }
         public static void Exit()
         {

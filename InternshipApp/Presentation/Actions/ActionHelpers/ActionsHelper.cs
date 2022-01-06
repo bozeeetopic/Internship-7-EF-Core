@@ -24,14 +24,15 @@ namespace Presentation.Actions.ActionHelpers
                 i++;
             }
         }
-        public static  void GenericMenu(List<Template> InputsList)
+        public static  void GenericMenu(List<Template> actions, string message)
         {
             while (true)
             {
-                PrintActionsColored(InputsList);
+                Console.WriteLine(message);
+                PrintActionsColored(actions);
                 Console.WriteLine();
-                var choiceActionIndex = Reader.UserNumberInput("vaš izbor", 1, InputsList.Count) - 1;
-                switch (InputsList[choiceActionIndex].Status)
+                var choiceActionIndex = Reader.UserNumberInput("vaš izbor", 1, actions.Count) - 1;
+                switch (actions[choiceActionIndex].Status)
                 {
                     case InputStatus.Warning:
                         if (!Reader.UserConfirmation("Jeste li sigurni da želite izvršiti odabranu akciju? "))
@@ -39,11 +40,11 @@ namespace Presentation.Actions.ActionHelpers
                             break;
                         }
                         Console.Clear();
-                        InputsList[choiceActionIndex].Function();
+                        actions[choiceActionIndex].Function();
                         break;
                     case InputStatus.Done:
                     case InputStatus.WaitingForInput:
-                        InputsList[choiceActionIndex].Function();
+                        actions[choiceActionIndex].Function();
                         break;
                     case InputStatus.Error:
                         Console.WriteLine("Odabrana akcija trenutno nije moguća!");
@@ -53,5 +54,6 @@ namespace Presentation.Actions.ActionHelpers
                 Console.Clear();
             }
         }
+
     }
 }

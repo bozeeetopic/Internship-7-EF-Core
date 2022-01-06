@@ -29,8 +29,6 @@ namespace Domain.Repositories
             edittingResource.Text = resource.Text;
             edittingResource.Domain = resource.Domain;
             edittingResource.SeenCounter = resource.SeenCounter;
-            edittingResource.UpVotes = resource.UpVotes;
-            edittingResource.DownVotes = resource.DownVotes;
 
             return SaveChanges();
         }
