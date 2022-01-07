@@ -17,11 +17,11 @@ namespace Presentation.Actions
         };
         public static readonly List<(string, Action)> DashboardActions = new()
         {
-            { ("Resursi", () => DashboardAction.ChooseDomainAndListResourceAction(true)) },
+            { ("Resursi", () => Dashboard.DashboardActions.ChooseDomainAndListResourceAction(true)) },
             //{ ("Korisnici", () => DashboardAction.Users()) },
-            { ("Neodgovoreno", () => DashboardAction.ChooseDomainAndListResourceAction(false)) },
-            { ("Moj profil", () => DashboardAction.MyProfile()) },
-            { ("Logout", () => DashboardAction.LogOut())},
+            { ("Neodgovoreno", () => Dashboard.DashboardActions.ChooseDomainAndListResourceAction(false)) },
+            { ("Moj profil", () => Dashboard.DashboardActions.MyProfile()) },
+            { ("Logout", () => Dashboard.DashboardActions.LogOut())},
         };
 
         public static void PrintMenuAndDoAction(List<(string name, Action action)> actions)

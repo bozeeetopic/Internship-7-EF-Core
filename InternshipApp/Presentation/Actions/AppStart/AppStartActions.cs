@@ -23,7 +23,7 @@ namespace Presentation.Actions.AppStart
             actions[0].Function = () => LoginActions.UsernameInput(actions);
             actions[1].Function = () => LoginActions.PasswordInput(actions);
 
-            ActionsHelper.GenericMenu(actions,"");
+            ActionsHelper.GenericMenuAndMessage(actions,"");
         }
         public static void Register()
         {
@@ -42,7 +42,7 @@ namespace Presentation.Actions.AppStart
             actions[3].Function = () => RegisterActions.SetSurname(actions);
 
             CurrentUser.User = new();
-            ActionsHelper.GenericMenu(actions,"");
+            ActionsHelper.GenericMenuAndMessage(actions,"");
         }
         public static void Exit()
         {

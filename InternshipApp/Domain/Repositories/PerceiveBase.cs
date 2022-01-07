@@ -2,6 +2,9 @@
 using Data.Entities;
 using Domain.Models;
 using System.Linq;
+using Domain.Enums;
+using Data.Entities.Models;
+using System.Collections.Generic;
 
 namespace Domain.Repositories
 {
@@ -11,43 +14,14 @@ namespace Domain.Repositories
         {
         }
 
-        public PercieveDetails GetPaymentDetails(int perceiveId)
+        public ResponseResultType Add(int perceiverId, int resourceId)
         {
-            var perceiverDetails = DbContext.Perceptions
-                .Where(p => p.Id == perceiveId)
-                .Include(pr => pr.Perceiver)
-                .Select(pr => new
-                {
-                    pr.Perceiver.Username,
-                    PerceiverFullName = $"{ pr.Perceiver.Name} {pr.Perceiver.Surname}",
-                });
+            Perception perception = new() { PerceiverId = perceiverId, ResourceId = resourceId };
+            DbContext.Perceptions.Add(perception);
 
-            var resourceDetails = DbContext.Perceptions
-                .Where(i => i.Id == perceiveId)
-                .Include(r => r.Resource)
-                .Select(r => new
-                {
-                   r.Resource.Header,
-                   r.Resource.Domain
-                })
-                .FirstOrDefault();
-
-            if (resourceDetails is null || perceiverDetails is null)
-            {
-                return null;
-            }
-
-            var percieveDetails = perceiverDetails
-                .Select(pd => new PercieveDetails
-                {
-                    Header = resourceDetails.Header,
-                    Domain = resourceDetails.Domain,
-                    //Username = perceiverDetails.Username,
-                    //FullName = perceiverDetails.PerceiverFullName,
-                })
-                .FirstOrDefault();
-
-            return percieveDetails;
+            return SaveChanges();
         }
+
+        public ICollection<Perception> GetAll() => DbContext.Perceptions.ToList();
     }
 }

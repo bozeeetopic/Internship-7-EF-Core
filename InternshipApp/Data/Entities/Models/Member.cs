@@ -15,6 +15,6 @@ namespace Data.Entities.Models
 
         public ICollection<Post> Posts { get; set; }
         public ICollection<Reaction> Reactions { get; set; }
-        public ICollection<Perceive> Perceptions { get; set; }
+        public ICollection<Perception> Perceptions { get; set; }
     }
 }

@@ -8,6 +8,6 @@ namespace Data.Entities.Models
         public string Header { get; set; }
         public ResourceDomain Domain { get; set; }
         public int SeenCounter { get; set; }
-        public ICollection<Perceive> Perceptions { get; set; }
+        public ICollection<Perception> Perceptions { get; set; }
     }
 }

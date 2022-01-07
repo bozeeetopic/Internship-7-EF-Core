@@ -1,7 +1,7 @@
 ﻿
 namespace Data.Entities.Models
 {
-    public class Perceive
+    public class Perception
     {
         public int Id { get; set; }
 

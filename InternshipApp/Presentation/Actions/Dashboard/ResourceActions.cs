@@ -24,18 +24,17 @@ namespace Presentation.Actions.Dashboard
         };
         public static void ChooseDomain()
         {
-            foreach(var domainType in _resourceDomainList)
+            for(var index = 0; index < _resourceDomainList.Count; index++)
             {
-                Console.WriteLine(domainType.Item1);
+                Console.WriteLine($"{index+1} - {_resourceDomainList[index].Item1}");
             }
             var choice = Reader.UserNumberInput("područje resoursa",1,5);
-            ResourceType.Set(_resourceDomainList[choice].Item2);
+            ResourceType.Set(_resourceDomainList[choice-1].Item2);
         }
         public static void SetActionCallabilityStatus(List<Template> actions)
         {
             if(CurrentResource.Resources.Count == 0)
             {
-                actions.RemoveAt(2);
                 actions.RemoveAt(1);
             }
             if (CurrentUser.User.ReputationPoints <= 100000)
@@ -43,62 +42,70 @@ namespace Presentation.Actions.Dashboard
                 actions.RemoveAt(0);
             }
         }
-        public static string ResourcesToString(bool listAll)
+        public static void GetResourcesFromDB()
         {
             CurrentResource.Resources = RepositoryFactory
-                .Create<ResourceBase>().
-                GetAll()
+                .Create<ResourceBase>()
+                .GetAll()
                 .Where(r => r.Domain == CurrentResource.ResourceDomain)
                 .ToList();
 
             var idsOfResourcesWithComments = RepositoryFactory
                 .Create<CommentBase>()
-                .GetAll().
-                Select(x => x.ResourceId)
+                .GetAll()
+                .Select(x => x.ResourceId)
                 .ToArray();
 
-            if (!listAll)
+            if (!CurrentResource.ListAll)
             {
                 CurrentResource.Resources = CurrentResource.Resources
-                    .Where(r => !idsOfResourcesWithComments
-                    .Contains(r.Id))
+                    .Where(r => !idsOfResourcesWithComments.Contains(r.Id))
                     .ToList();
             }
-            var stringToReturn = "";
-            if (CurrentResource.Resources.Count == 0)
-            {
-                return "Ne postoje resursi!";
-            }
-            else
-            {
-                stringToReturn = "Redni broj\tPodručje\tIme resursa\t\tBroj pregleda";
-                var index = 1;
-                foreach(var resource in CurrentResource.Resources)
-                {
-                    stringToReturn += $"{index}\t{resource.Domain}\t{resource.Header}\t\t{resource.SeenCounter}\n";
-                    index++;
-                }
-            }
-            return stringToReturn;
         }
         public static void EnterResource() 
         {
+            Console.WriteLine("Redni broj - Naslov\tPodručje\tDatum\tBroj pregleda");
+            var i = 1;
+            foreach(var resource in CurrentResource.Resources)
+            {
+                Console.WriteLine($"{i} - {resource.Header}\t{resource.Domain}\t{resource.Date}\t{resource.SeenCounter}");
+                i++;
+            }
+            var chosenResource = Reader.UserNumberInput("Unesi redni broj resursa", 1, CurrentResource.Resources.Count)-1;
+            CurrentResource.Resource = CurrentResource.Resources[chosenResource];
+
+            var perceptions = RepositoryFactory
+                .Create<PerceiveBase>();
+            var perception = perceptions.GetAll()
+                .Where(r => r.ResourceId == CurrentResource.Resource.Id)
+                .Where(r => r.PerceiverId == CurrentUser.User.Id)
+                .ToList();
+            if(perception == null)
+            {
+                perceptions.Add(CurrentUser.User.Id, CurrentResource.Resource.Id);
+                CurrentResource.Resource.SeenCounter++;
+                RepositoryFactory
+                    .Create<ResourceBase>()
+                    .Edit(CurrentResource.Resource, CurrentResource.Resource.Id);
+            }
+            ChosenResourceActions.ResourceActions();
         }
-        public static void AddResource(bool listAll)
+        public static void AddResource()
         {
             List<Template> actions = new()
             {
                 new() { Status = InputStatus.WaitingForInput, Name = "Unos naslova", Function = null },
                 new() { Status = InputStatus.WaitingForInput, Name = "Unos teksta", Function = null },
                 new() { Status = InputStatus.WaitingForInput, Name = "Unos područja", Function = null },
-                new() { Status = InputStatus.Error, Name = "Dodaj resurs", Function = () => AddResourceActions.AddResource(listAll) },
-                new() { Status = InputStatus.WaitingForInput, Name = "Odustani", Function = () => DashboardAction.ListResourceActions(listAll)}
+                new() { Status = InputStatus.Error, Name = "Dodaj resurs", Function = () => AddResourceActions.AddResource() },
+                new() { Status = InputStatus.WaitingForInput, Name = "Odustani", Function = () => DashboardActions.ListResourceActions()}
             };
             actions[0].Function = () => AddResourceActions.SetHeader(actions);
             actions[1].Function = () => AddResourceActions.SetText(actions);
             actions[2].Function = () => AddResourceActions.SetDomain(actions);
 
-            ActionsHelper.GenericMenu(actions, "");
+            ActionsHelper.GenericMenuAndMessage(actions,"");
         }
     }
 }

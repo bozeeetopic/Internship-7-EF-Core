@@ -5,27 +5,28 @@ using System.Collections.Generic;
 
 namespace Presentation.Actions.Dashboard
 {
-    public static class DashboardAction
+    public static class DashboardActions
     {
         public static void ChooseDomainAndListResourceAction(bool listingAll)
         {
             ResourceActions.ChooseDomain();
+            CurrentResource.ListAll = listingAll;
 
-            ListResourceActions(listingAll);
+            ListResourceActions();
         }
-        public static void ListResourceActions(bool listingAll)
+        public static void ListResourceActions()
         {
 
             List<Template> actions = new()
             {
-                new() { Status = InputStatus.WaitingForInput, Name = "Dodaj resurs", Function = () => ResourceActions.AddResource(listingAll) },
-                new() { Status = InputStatus.WaitingForInput, Name = "Uđi u resurs", Function = null },
+                new() { Status = InputStatus.WaitingForInput, Name = "Dodaj resurs", Function = () => ResourceActions.AddResource() },
+                new() { Status = InputStatus.WaitingForInput, Name = "Uđi u resurs", Function = () => ResourceActions.EnterResource() },
                 new() { Status = InputStatus.WaitingForInput, Name = "Povratak u meni", Function = () => ActionsCaller.PrintMenuAndDoAction(ActionsCaller.DashboardActions) }
             };
-            var allResources = ResourceActions.ResourcesToString(listingAll);
+            ResourceActions.GetResourcesFromDB();
             ResourceActions.SetActionCallabilityStatus(actions);
 
-            ActionsHelper.GenericMenu(actions, allResources);
+            ActionsHelper.GenericMenuAndMessage(actions,"");
         }
         /*public static void Users()
         {

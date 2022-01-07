@@ -19,7 +19,7 @@ namespace Data.Entities
         public DbSet<Resource> Resources { get; set; }
         public DbSet<Member> Members { get; set; }
         public DbSet<Reaction> Reactions { get; set; }
-        public DbSet<Perceive> Perceptions { get; set; }
+        public DbSet<Perception> Perceptions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -52,12 +52,12 @@ namespace Data.Entities
                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder
-                .Entity<Perceive>()
+                .Entity<Perception>()
                 .HasOne(p => p.Perceiver)
                 .WithMany(pp => pp.Perceptions)
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder
-                .Entity<Perceive>()
+                .Entity<Perception>()
                 .HasOne(r => r.Resource)
                 .WithMany(p => p.Perceptions)
                 .OnDelete(DeleteBehavior.NoAction);

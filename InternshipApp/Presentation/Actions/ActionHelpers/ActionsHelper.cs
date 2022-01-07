@@ -24,11 +24,16 @@ namespace Presentation.Actions.ActionHelpers
                 i++;
             }
         }
-        public static  void GenericMenu(List<Template> actions, string message)
+        public static  void GenericMenuAndMessage(List<Template> actions, string message)
         {
             while (true)
             {
                 Console.WriteLine(message);
+                GenericMenu(actions);
+            }
+        }
+        public static void GenericMenu(List<Template> actions)
+        {
                 PrintActionsColored(actions);
                 Console.WriteLine();
                 var choiceActionIndex = Reader.UserNumberInput("vaš izbor", 1, actions.Count) - 1;
@@ -52,7 +57,6 @@ namespace Presentation.Actions.ActionHelpers
                 }
                 Thread.Sleep(1000);
                 Console.Clear();
-            }
         }
 
     }

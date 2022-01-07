@@ -31,12 +31,12 @@ namespace Presentation.Actions.Dashboard.Resource
             actions[3].Status = InputStatus.WaitingForInput;
             return;
         }
-        public static void AddResource(bool listAll)
+        public static void AddResource()
         {
             CurrentResource.Resource.Date = DateTime.Now;
             CurrentResource.Resource.Author = CurrentUser.User;
             RepositoryFactory.Create<ResourceBase>().Add(CurrentResource.Resource);
-            DashboardAction.ListResourceActions(listAll);
+            DashboardActions.ListResourceActions();
         }
         public static void SetHeader(List<Template> actions)
         {

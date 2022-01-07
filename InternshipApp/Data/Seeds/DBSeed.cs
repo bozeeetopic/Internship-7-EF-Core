@@ -172,22 +172,22 @@ namespace Data.Seeds
                     }
                 });
 
-            builder.Entity<Perceive>()
-                .HasData(new List<Perceive>
+            builder.Entity<Perception>()
+                .HasData(new List<Perception>
                 {
-                    new Perceive
+                    new Perception
                     {
                         Id = 1,
                         PerceiverId = 1,
                         ResourceId = 1
                     },
-                    new Perceive
+                    new Perception
                     {
                         Id = 2,
                         PerceiverId = 1,
                         ResourceId = 2
                     },
-                    new Perceive
+                    new Perception
                     {
                         Id = 3,
                         PerceiverId = 1,
