@@ -30,7 +30,7 @@ namespace Presentation.Actions.Dashboard
                 var i = 1;
                 foreach (var resource in Resources.ResourcesList)
                 {
-                    Console.WriteLine($"{i} - {resource.Header}\t\t{resource.Author.Name}\t\t{CommentServices.GetCommentsCount(resource.Id)}");
+                    Console.WriteLine($"{i} - {resource.Header}\t\t{UserServices.ReturnUserById(resource.AuthorId).Username}\t\t{CommentServices.GetCommentsCount(resource.Id)}");
                 }
                 Console.WriteLine("\nOdaberite između sljedećih akcija: ");
 
@@ -39,7 +39,7 @@ namespace Presentation.Actions.Dashboard
                     new() { Status = InputStatus.WaitingForInput, Name = "Uđi u resurs", Function = () => ResourceActions.EnterResource() },
                     new() { Status = InputStatus.WaitingForInput, Name = "Povratak u meni", Function = () => ActionsCaller.PrintMenuAndDoAction(DashboardActionsList) }
                 };
-                SetActionCallabilityStatus(actions);
+
                 ActionsHelper.GenericMenu(actions);
             }
         }
@@ -57,6 +57,7 @@ namespace Presentation.Actions.Dashboard
             {
                 new() { Status = InputStatus.WaitingForInput, Name = "Dodaj resurs", Function = () => ResourceActions.AddResource() },
                 new() { Status = InputStatus.WaitingForInput, Name = "Uđi u resurs", Function = () => ResourceActions.EnterResource() },
+                new() { Status = InputStatus.WaitingForInput, Name = "Povratak u odabir područja", Function = () => ChooseDomainAndListResourceAction(Resources.ListAll) },
                 new() { Status = InputStatus.WaitingForInput, Name = "Povratak u meni", Function = () => ActionsCaller.PrintMenuAndDoAction(DashboardActionsList) }
             };
             ResourceActions.GetResourcesFromDB();

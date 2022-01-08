@@ -52,6 +52,16 @@ namespace Data.Seeds
                         Password = "",
                         ReputationPoints = 1,
                         BannedUntil = DateTime.Now
+                    },
+                    new Member
+                    {
+                        Id = 999,
+                        Name = "Isus",
+                        Surname = "Krist",
+                        Username = "sus",
+                        Password = "",
+                        ReputationPoints = 100000,
+                        BannedUntil = DateTime.Now
                     }
                 });
 
@@ -87,6 +97,16 @@ namespace Data.Seeds
                         Text = "Lorem ipsum or sumtin",
                         Domain = ResourceDomain.Marketing,
                         SeenCounter = 4
+                    },
+                    new Resource
+                    {
+                        Id = 100,
+                        AuthorId = 999,
+                        Header = "Jesus was here!",
+                        Date = new DateTime(1,1,1),
+                        Text = "Need more proof? im real! Just look at the date!",
+                        Domain = ResourceDomain.General,
+                        SeenCounter = 9999
                     }
                 }) ;
 

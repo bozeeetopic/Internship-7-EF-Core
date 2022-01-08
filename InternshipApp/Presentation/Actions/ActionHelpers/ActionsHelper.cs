@@ -36,7 +36,7 @@ namespace Presentation.Actions.ActionHelpers
         {
                 PrintActionsColored(actions);
                 Console.WriteLine();
-                var choiceActionIndex = Reader.UserNumberInput("vaš izbor", 1, actions.Count) - 1;
+                var choiceActionIndex = Reader.UserNumberInput(" vaš izbor", 1, actions.Count) - 1;
                 switch (actions[choiceActionIndex].Status)
                 {
                     case InputStatus.Warning:
@@ -53,9 +53,9 @@ namespace Presentation.Actions.ActionHelpers
                         break;
                     case InputStatus.Error:
                         Console.WriteLine("Odabrana akcija trenutno nije moguća!");
+                        Thread.Sleep(1000);
                         break;
                 }
-                Thread.Sleep(1000);
                 Console.Clear();
         }
 

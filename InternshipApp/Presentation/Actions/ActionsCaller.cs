@@ -14,7 +14,7 @@ namespace Presentation.Actions
                 Console.WriteLine($"{index+1} - {actions[index].name}");
             }
             Console.WriteLine();
-            var choice = Reader.UserNumberInput("vaš izbor", 1, actions.Count);
+            var choice = Reader.UserNumberInput(" vaš izbor", 1, actions.Count);
             Console.Clear();
             actions[choice - 1].action();
         }

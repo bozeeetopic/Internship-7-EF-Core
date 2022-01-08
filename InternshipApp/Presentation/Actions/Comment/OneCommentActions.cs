@@ -7,7 +7,7 @@ using Presentation.Helpers;
 using System;
 using System.Collections.Generic;
 
-namespace Presentation.Actions.Comments
+namespace Presentation.Actions.Comment
 {
     public class OneCommentActions
     {

@@ -13,7 +13,7 @@ namespace Presentation.Actions.Dashboard
     {
         public static void ChooseUser()
         {
-                var chosenUser = Reader.UserNumberInput("Unesi redni broj korisnika", 1, Users.UsersList.Count);
+                var chosenUser = Reader.UserNumberInput(" redni broj korisnika", 1, Users.UsersList.Count);
 
                 Users.SearchedUser = Users.UsersList[chosenUser];
 
@@ -52,20 +52,23 @@ namespace Presentation.Actions.Dashboard
         public static void EditName()
         {
             var newName = Reader.UserStringInput("novo ime", "", 1);
-            Users.CurrentUser.Name = newName;
-            UserServices.Edit(Users.CurrentUser);
+            Users.SearchedUser.Name = newName;
+            UserServices.Edit(Users.SearchedUser);
+            Users.CurrentUser = UserServices.ReturnUserById(Users.CurrentUser.Id);
         }
         public static void EditSurname()
         {
             var newSurame = Reader.UserStringInput("novo prezime", "", 1);
-            Users.CurrentUser.Surname = newSurame;
-            UserServices.Edit(Users.CurrentUser);
+            Users.SearchedUser.Surname = newSurame;
+            UserServices.Edit(Users.SearchedUser);
+            Users.CurrentUser = UserServices.ReturnUserById(Users.CurrentUser.Id);
         }
         public static void EditPassword()
         {
             var newPassword = Reader.UserStringInput("novu šifru", "", 1);
-            Users.CurrentUser.Password = newPassword;
-            UserServices.Edit(Users.CurrentUser);
+            Users.SearchedUser.Password = newPassword;
+            UserServices.Edit(Users.SearchedUser);
+            Users.CurrentUser = UserServices.ReturnUserById(Users.CurrentUser.Id);
         }
         public static void EditUsername()
         {
@@ -77,8 +80,10 @@ namespace Presentation.Actions.Dashboard
                 Thread.Sleep(1000);
                 return;
             }
-            Users.CurrentUser.Username = newUsername;
-            UserServices.Edit(Users.CurrentUser);
+            Users.SearchedUser.Username = newUsername;
+            UserServices.Edit(Users.SearchedUser);
+            Users.CurrentUser = UserServices.ReturnUserById(Users.CurrentUser.Id);
+
         }
         public static void SearchName()
         {

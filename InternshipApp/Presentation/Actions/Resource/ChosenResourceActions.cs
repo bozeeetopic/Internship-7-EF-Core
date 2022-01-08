@@ -1,7 +1,7 @@
 ﻿using Domain.Models;
 using Domain.Services;
 using Presentation.Actions.ActionHelpers;
-using Presentation.Actions.Comments;
+using Presentation.Actions.Comment;
 using Presentation.Actions.Dashboard;
 using Presentation.Enums;
 using Presentation.Helpers;
@@ -18,7 +18,8 @@ namespace Presentation.Actions.Resource
             List<Template> actions = new()
             {
                 new() { Status = InputStatus.WaitingForInput, Name = "Dodaj komentar", Function = () => AddComment() },
-                new() { Status = InputStatus.WaitingForInput, Name = "Uđi u komentare", Function = () => EnterComment() },
+                new() { Status = InputStatus.WaitingForInput, Name = "Uđi u komentare", Function = () => ChosenCommentActions.EnterComment() },
+                new() { Status = InputStatus.WaitingForInput, Name = "Povratak u odabir područja", Function = () => DashboardActions.ChooseDomainAndListResourceAction(Resources.ListAll) },
                 new() { Status = InputStatus.WaitingForInput, Name = "Povratak u resurse", Function = () => DashboardActions.ListResourceActions()},
                 new() { Status = InputStatus.WaitingForInput, Name = "Povratak u meni", Function = () => ActionsCaller.PrintMenuAndDoAction(DashboardActions.DashboardActionsList) }
            };
@@ -37,30 +38,6 @@ namespace Presentation.Actions.Resource
         public static void GetCommentsFromDB()
         {
             CommentServices.SetComments();
-        }
-        public static void EnterComment()
-        {
-            Console.Clear();
-            Console.WriteLine("Redni broj - \tAutor\tDatum objave\tUpvotes\tDownvotes\tText(iduca linija)");
-            var i = 1;
-            foreach (var comment in Domain.Models.Comments.CommentsList)
-            {
-                var authorReputation = UserServices.ReturnUsersReputationPoints(comment.AuthorId);
-
-                if (authorReputation >= 1000)
-                {
-                    ConsoleHelpers.WriteInColor($"{i} - {Domain.Models.Comments.CommentToString(comment)}", ConsoleColor.Cyan);
-                }
-                else
-                {
-                    Console.Write($"{i} - {Domain.Models.Comments.CommentToString(comment)}");
-                }
-                i++;
-            }
-            Console.WriteLine();
-            var chosenComment = Reader.UserNumberInput("Unesi redni broj komentara", 1, Domain.Models.Comments.CommentsList.Count) - 1;
-            Domain.Models.Comments.CurrentComment = Domain.Models.Comments.CommentsList[chosenComment];
-            ChosenCommentActions.CommentActions();
         }
         public static void AddComment()
         {

@@ -141,10 +141,10 @@ namespace Presentation.Helpers.Intro
         }
         public static void EnlargeConsolePart(double width, double heigth)
         {
-            while (width < Console.LargestWindowWidth - 20)
+            while (width < Console.LargestWindowWidth - 10)
             {
                 width += 2;
-                heigth += 0.6;
+                heigth += 0.5;
                 Console.SetWindowSize((int)width, (int)heigth);
                 Thread.Sleep(5);
             }

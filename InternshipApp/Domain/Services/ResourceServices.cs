@@ -58,6 +58,7 @@ namespace Domain.Services
             ResourceComments = ResourceComments.OrderBy(i => i.Item2).ToList();
             foreach(var resourceComment in ResourceComments)
             {
+                Resources.ResourcesList = new();
                 Resources.ResourcesList.Add(resourceComment.Item1);
             }
         }

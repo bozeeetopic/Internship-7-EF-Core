@@ -27,7 +27,7 @@ namespace Presentation.Actions.Dashboard
             {
                 Console.WriteLine($"{index+1} - {_resourceDomainList[index].Item1}");
             }
-            var choice = Reader.UserNumberInput("područje resoursa",1,5);
+            var choice = Reader.UserNumberInput(" područje resoursa",1,5);
             ResourceType.Set(_resourceDomainList[choice-1].Item2);
         }
         public static void SetActionCallabilityStatus(List<Template> actions)
@@ -55,11 +55,11 @@ namespace Presentation.Actions.Dashboard
         public static void EnterResource() 
         {
             Console.Clear();
-            Console.WriteLine("Redni broj - Naslov\tPodručje\tDatum\tBroj pregleda");
+            Console.WriteLine("Redni broj - Naslov\t\t\tDatum\t\tBroj pregleda");
             var i = 1;
             foreach(var resource in Resources.ResourcesList)
             {
-                Console.WriteLine($"{i} - {resource.Header}\t{resource.Domain}\t{resource.Date}\t{resource.SeenCounter}");
+                Console.WriteLine($"\t{i}   -   {resource.Header}\t\t{resource.Date}\t{resource.SeenCounter}");
                 i++;
             }
             var chosenResource = Reader.UserNumberInput(" redni broj resursa", 1, Resources.ResourcesList.Count)-1;

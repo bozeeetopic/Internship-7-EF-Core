@@ -7,7 +7,7 @@ using Presentation.Helpers;
 using System;
 using System.Collections.Generic;
 
-namespace Presentation.Actions.Comments
+namespace Presentation.Actions.Comment
 {
     public class ChosenCommentActions
     {
@@ -109,23 +109,23 @@ namespace Presentation.Actions.Comments
             Console.Clear();
             Console.WriteLine("Redni broj - \tAutor\tDatum objave\tUpvotes\tDownvotes\tText(iduca linija)");
             var i = 1;
-            foreach (var comment in Domain.Models.Comments.CommentsList)
+            foreach (var comment in Comments.CommentsList)
             {
                 var authorReputation = UserServices.ReturnUsersReputationPoints(comment.AuthorId);
 
                 if(authorReputation >= 1000)
                 {
-                    ConsoleHelpers.WriteInColor($"{i} - {Domain.Models.Comments.CommentToString(comment)}", ConsoleColor.Cyan);
+                    ConsoleHelpers.WriteInColor($"{i} - {Comments.CommentToString(comment)}", ConsoleColor.Cyan);
                 }
                 else
                 {
-                    Console.Write($"{i} - {Domain.Models.Comments.CommentToString(comment)}");
+                    Console.Write($"{i} - {Comments.CommentToString(comment)}");
                 }
                 i++;
             }
             Console.WriteLine();
-            var chosenComment = Reader.UserNumberInput("Unesi redni broj komentara", 1, Domain.Models.Comments.CommentsList.Count) - 1;
-            Domain.Models.Comments.CurrentComment = Domain.Models.Comments.CommentsList[chosenComment];
+            var chosenComment = Reader.UserNumberInput(" redni broj komentara", 1, Comments.CommentsList.Count) - 1;
+            Comments.CurrentComment = Comments.CommentsList[chosenComment];
             CommentActions();
         }
         public static void AddComment()

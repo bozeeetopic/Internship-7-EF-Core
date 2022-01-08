@@ -43,6 +43,14 @@ namespace Domain.Services
                 .Select(rp => rp.ReputationPoints)
                 .FirstOrDefault();
         }
+        public static Member ReturnUserById(int id)
+        {
+            return RepositoryFactory
+                .Create<MemberBase>()
+                .GetAll()
+                .Where(i => i.Id == id)
+                .FirstOrDefault();
+        }
         public static Member ReturnUserById()
         {
             return RepositoryFactory

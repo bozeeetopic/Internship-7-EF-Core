@@ -19,14 +19,22 @@ namespace Presentation.Helpers
                     {
                         Console.Write("Morate unjeti ");
                         ConsoleHelpers.WriteInColor("BROJ", ConsoleColor.Red);
-                        Console.Write($" između {minValue} i {maxValue}!\n");
+                        if(minValue != maxValue)
+                        {
+                            Console.Write($" između {minValue} i {maxValue}!");
+                        }
+                        Console.WriteLine();
                     }
                     else
                     {
-                        Console.Write("Morate unjeti broj između ");
-                        ConsoleHelpers.WriteInColor($"{minValue}", ConsoleColor.Red);
-                        Console.Write(" i ");
-                        ConsoleHelpers.WriteInColor($"{maxValue}", ConsoleColor.Red);
+                        Console.Write("Morate unjeti broj ");
+                        if (minValue != maxValue)
+                        {
+                            Console.Write(" između ");
+                            ConsoleHelpers.WriteInColor($"{minValue}", ConsoleColor.Red);
+                            Console.Write(" i ");
+                            ConsoleHelpers.WriteInColor($"{maxValue}", ConsoleColor.Red);
+                        }
                         Console.Write("!\n");
                     }
                     linesToDelete = 3;
