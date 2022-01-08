@@ -40,11 +40,11 @@ namespace Presentation.Actions.Resource
         }
         public static void SetHeader(List<Template> actions)
         {
-            Resources.CurrentResource.Header = UserPropertiesInput(actions, 1);
+            Resources.CurrentResource.Header = UserPropertiesInput(actions, 0);
         }
         public static void SetText(List<Template> actions)
         {
-            Resources.CurrentResource.Text = UserPropertiesInput(actions, 2);
+            Resources.CurrentResource.Text = UserPropertiesInput(actions, 1);
         }
         public static void SetDomain(List<Template> actions)
         {
