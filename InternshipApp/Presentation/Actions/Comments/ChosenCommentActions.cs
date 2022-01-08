@@ -15,6 +15,7 @@ namespace Presentation.Actions.Comments
     {
         public static void CommentActions()
         {
+            Console.Clear();
             List<Template> actions = new()
             {
                 new() { Status = InputStatus.WaitingForInput, Name = "Dodaj komentar", Function = () => AddComment() },
@@ -34,22 +35,16 @@ namespace Presentation.Actions.Comments
         }
         public static void CheckForReactions(List<Template> actions)
         {
-            var reactions = RepositoryFactory
+            var reaction = RepositoryFactory
                 .Create<ReactionBase>()
                 .GetAll()
                 .Where(ci => ci.CommentId == CurrentComment.Comment.Id)
                 .Where(ri => ri.ReactorId == CurrentUser.User.Id)
                 .FirstOrDefault();
-            if(reactions != null)
+            if(reaction != null)
             {
-                if (reactions.IsUpVote)
-                {
-                    actions[3].Status = InputStatus.Done;
-                }
-                else
-                {
-                    actions[4].Status = InputStatus.Done;
-                }
+                actions[3].Status = InputStatus.Error;
+                actions[4].Status = InputStatus.Error;
             }
         }
         public static void SetActionCallabilityStatus(List<Template> actions)
@@ -123,6 +118,7 @@ namespace Presentation.Actions.Comments
         }
         public static void EnterComment()
         {
+            Console.Clear();
             Console.WriteLine("Redni broj - \tAutor\tDatum objave\tUpvotes\tDownvotes\tText(iduca linija)");
             var i = 1;
             foreach (var comment in CurrentComment.Comments)
@@ -136,17 +132,22 @@ namespace Presentation.Actions.Comments
 
                 if(authorReputation >= 1000)
                 {
-                    ConsoleHelpers.WriteInColor($"{i} - {CurrentComment.CommentToString(comment)}",ConsoleColor.Blue);
+                    ConsoleHelpers.WriteInColor($"{i} - {CurrentComment.CommentToString(comment)}",ConsoleColor.Cyan);
                 }
-                Console.Write($"{i} - {CurrentComment.CommentToString(comment)}");
+                else
+                {
+                    Console.Write($"{i} - {CurrentComment.CommentToString(comment)}");
+                }
                 i++;
             }
+            Console.WriteLine();
             var chosenComment = Reader.UserNumberInput("Unesi redni broj komentara", 1, CurrentComment.Comments.Count) - 1;
             CurrentComment.Comment = CurrentComment.Comments[chosenComment];
             CommentActions();
         }
         public static void AddComment()
         {
+            Console.Clear();
             List<Template> actions = new()
             {
                 new() { Status = InputStatus.WaitingForInput, Name = "Unos teksta", Function = null },
@@ -154,21 +155,24 @@ namespace Presentation.Actions.Comments
                 new() { Status = InputStatus.WaitingForInput, Name = "Odustani", Function = () => CommentActions() }
             };
             actions[0].Function = () => OneCommentActions.SetText(actions);
+            CurrentComment.InsertingComment = new();
 
             ActionsHelper.GenericMenuAndMessage(actions, "");
         }
         public static void EraseCommentActions()
         {
+            Console.Clear();
             List<Template> actions = new()
             {
                 new() { Status = InputStatus.Error, Name = "Izbriši komentar", Function = () => OneCommentActions.DeleteComment() },
                 new() { Status = InputStatus.WaitingForInput, Name = "Odustani", Function = () => CommentActions() }
             };
 
-            ActionsHelper.GenericMenuAndMessage(actions, "");
+            ActionsHelper.GenericMenuAndMessage(actions, "Jeste li sigurni da želite izbrisati komentar?");
         }
         public static void EditCommentActions()
         {
+            Console.Clear();
             List<Template> actions = new()
             {
                 new() { Status = InputStatus.WaitingForInput, Name = "Unos promjenjenog teksta", Function = null },
@@ -185,32 +189,47 @@ namespace Presentation.Actions.Comments
                 .Create<ReactionBase>();
             var users = RepositoryFactory
                 .Create<MemberBase>();
+
             var user = users
                 .GetAll()
                 .Where(i => i.Id == CurrentComment.Comment.AuthorId)
                 .FirstOrDefault();
+
             var reaction = reactions
                 .GetAll()
                 .Where(ci => ci.CommentId == CurrentComment.Comment.Id)
                 .Where(ri => ri.ReactorId == CurrentUser.User.Id)
                 .FirstOrDefault();
-            if(reaction == null)
+
+            reactions.Add(CurrentUser.User.Id, CurrentComment.Comment.Id, isUpvote);
+            if(user.Id != CurrentUser.User.Id)
             {
-                reactions.Add(CurrentUser.User.Id, CurrentComment.Comment.Id, isUpvote);
-                if(user.Id != CurrentUser.User.Id)
+                if (isUpvote)
                 {
-                    if (isUpvote)
+                    user.ReputationPoints = ReduceReputationPoints(user.ReputationPoints, 15);
+                    if (CurrentComment.Comment.ParentComment == null)
                     {
-                        CurrentUser.User.ReputationPoints = ReduceReputationPoints();
-                        user.ReputationPoints = ReduceReputationPoints();
+                        CurrentUser.User.ReputationPoints = ReduceReputationPoints(CurrentUser.User.ReputationPoints, 10);
                     }
-                    users.Edit();
-                    users.Edit();
+                    else
+                    {
+                        CurrentUser.User.ReputationPoints = ReduceReputationPoints(CurrentUser.User.ReputationPoints, 5);
+                    }
                 }
-            }
-            else
-            {
-                reactions.Edit(reaction.Id, isUpvote);
+                else
+                {
+                    CurrentUser.User.ReputationPoints = ReduceReputationPoints(CurrentUser.User.ReputationPoints,-1);
+                    if (CurrentComment.Comment.ParentComment == null)
+                    {
+                        user.ReputationPoints = ReduceReputationPoints(user.ReputationPoints,-2);
+                    }
+                    else
+                    {
+                        user.ReputationPoints = ReduceReputationPoints(user.ReputationPoints,-3);
+                    }
+                }
+                users.Edit(CurrentUser.User,CurrentUser.User.Id);
+                users.Edit(user,user.Id);
             }
 
             if (isUpvote)
@@ -224,6 +243,21 @@ namespace Presentation.Actions.Comments
             RepositoryFactory
                 .Create<CommentBase>()
                 .Edit(CurrentComment.Comment, CurrentComment.Comment.Id);
+        }
+        private static int ReduceReputationPoints(int reputationPoints, int addition)
+        {
+            if(reputationPoints >= 100000)
+            {
+                return reputationPoints;
+            }
+            if(reputationPoints + addition <= 1)
+            {
+                return 1;
+            }
+            else
+            {
+                return reputationPoints + addition;
+            }
         }
         public static void GoToPreviousComment()
         {

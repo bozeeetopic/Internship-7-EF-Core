@@ -13,6 +13,7 @@ namespace Presentation.Actions.AppStart
     {
         public static void Login()
         {
+            Console.Clear();
             List<Template> actions = new()
             {   
                 new(){ Status = InputStatus.WaitingForInput,Name= "Unos korisničkog imena", Function = null},
@@ -27,6 +28,7 @@ namespace Presentation.Actions.AppStart
         }
         public static void Register()
         {
+            Console.Clear();
             List<Template> actions = new()
             {
                 new() { Status = InputStatus.WaitingForInput, Name = "Unos korisničkog imena", Function = null },

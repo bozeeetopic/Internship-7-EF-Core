@@ -18,7 +18,7 @@ namespace Presentation.Actions
         public static readonly List<(string, Action)> DashboardActions = new()
         {
             { ("Resursi", () => Dashboard.DashboardActions.ChooseDomainAndListResourceAction(true)) },
-            //{ ("Korisnici", () => DashboardAction.Users()) },
+            { ("Korisnici", () => Dashboard.DashboardActions.Users() )},
             { ("Neodgovoreno", () => Dashboard.DashboardActions.ChooseDomainAndListResourceAction(false)) },
             { ("Moj profil", () => Dashboard.DashboardActions.MyProfile()) },
             { ("Logout", () => Dashboard.DashboardActions.LogOut())},

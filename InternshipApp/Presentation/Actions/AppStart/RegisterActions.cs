@@ -51,6 +51,11 @@ namespace Presentation.Actions.AppStart
         {
             CurrentUser.User.ReputationPoints = 1;
             RepositoryFactory.Create<MemberBase>().Add(CurrentUser.User);
+            CurrentUser.User = RepositoryFactory
+                .Create<MemberBase>()
+                .GetAll()
+                .Where(u => u.Username == CurrentUser.User.Username)
+                .FirstOrDefault();
             ActionsCaller.PrintMenuAndDoAction(ActionsCaller.DashboardActions);
         }
         public static void SetPassword(List<Template> actions)

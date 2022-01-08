@@ -2,12 +2,13 @@
 using Domain.Models;
 using Domain.Repositories;
 using Presentation.Actions.ActionHelpers;
+using Presentation.Actions.Dashboard;
 using Presentation.Enums;
 using Presentation.Helpers;
 using System;
 using System.Collections.Generic;
 
-namespace Presentation.Actions.Dashboard.Resource
+namespace Presentation.Actions.Resource
 {
     public static  class AddResourceActions
     {

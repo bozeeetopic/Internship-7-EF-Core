@@ -15,11 +15,11 @@ namespace Presentation.Actions.Comments
     {
         public static void AddComment()
         {
-            CurrentComment.InsertingComment.CommentId = null;
-            CurrentComment.InsertingComment.Date = DateTime.Now;
+            CurrentComment.InsertingComment.UpVotes = 0;
+            CurrentComment.InsertingComment.DownVotes = 0;
             CurrentComment.InsertingComment.ResourceId = CurrentResource.Resource.Id;
             CurrentComment.InsertingComment.Date = DateTime.Now;
-            CurrentComment.InsertingComment.Author = CurrentUser.User;
+            CurrentComment.InsertingComment.AuthorId = CurrentUser.User.Id;
             RepositoryFactory.Create<CommentBase>().Add(CurrentComment.InsertingComment);
 
             ChosenResourceActions.ResourceActions();
@@ -27,12 +27,7 @@ namespace Presentation.Actions.Comments
         public static void AddComment(int parentCommentId)
         {
             CurrentComment.InsertingComment.CommentId = parentCommentId;
-            CurrentComment.InsertingComment.Date = DateTime.Now;
-            CurrentComment.InsertingComment.ResourceId = CurrentResource.Resource.Id;
-            CurrentComment.InsertingComment.Date = DateTime.Now;
-            CurrentComment.InsertingComment.Author = CurrentUser.User;
-            RepositoryFactory.Create<CommentBase>().Add(CurrentComment.InsertingComment);
-            ChosenCommentActions.CommentActions();
+            AddComment();
         }
         public static void SetText(List<Template> actions)
         {

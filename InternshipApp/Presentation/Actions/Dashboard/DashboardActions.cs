@@ -1,7 +1,13 @@
-﻿using Domain.Models;
+﻿using Domain.Factories;
+using Domain.Models;
+using Domain.Repositories;
 using Presentation.Actions.ActionHelpers;
+using Presentation.Actions.User;
 using Presentation.Enums;
+using Presentation.Helpers;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Presentation.Actions.Dashboard
 {
@@ -16,7 +22,7 @@ namespace Presentation.Actions.Dashboard
         }
         public static void ListResourceActions()
         {
-
+            Console.Clear();
             List<Template> actions = new()
             {
                 new() { Status = InputStatus.WaitingForInput, Name = "Dodaj resurs", Function = () => ResourceActions.AddResource() },
@@ -28,26 +34,75 @@ namespace Presentation.Actions.Dashboard
 
             ActionsHelper.GenericMenuAndMessage(actions,"");
         }
-        /*public static void Users()
+        public static void Users()
         {
-            List<Template> InputsList = new()
+            CurrentUser.Users = RepositoryFactory
+                        .Create<MemberBase>().GetAll().ToList();
+            while (true)
             {
-                new() { Status = InputStatus.WaitingForInput, Name = "Unos korisničkog imena", Function = null },
-                new() { Status = InputStatus.WaitingForInput, Name = "Unos šifre", Function = null },
-                new() { Status = InputStatus.WaitingForInput, Name = "Unos imena", Function = null },
-                new() { Status = InputStatus.WaitingForInput, Name = "Unos prezimena", Function = null },
-                new() { Status = InputStatus.Error, Name = "Register", Function = () => RegisterActions.Register() },
-                new() { Status = InputStatus.WaitingForInput, Name = "Izlaz", Function = () => ActionsCaller.PrintMenuAndDoAction(ActionsCaller.AppStartActions) }
-            };
-            InputsList[0].Function = () => RegisterActions.UsernameInput(InputsList);
-            InputsList[1].Function = () => RegisterActions.SetPassword(InputsList);
-            InputsList[2].Function = () => RegisterActions.SetName(InputsList);
-            InputsList[3].Function = () => RegisterActions.SetSurname(InputsList);
+                Console.Clear();
+                Console.WriteLine("Redni broj - Korisničko ime");
+                var i = 1;
+                foreach (var user in CurrentUser.Users)
+                {
+                    if (user.ReputationPoints >= 1000)
+                    {
+                        ConsoleHelpers.WriteInColor($"{i} - {user.Username}", ConsoleColor.Cyan);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{i} - {user.Username}");
+                    }
+                    i++;
+                }
+                Console.WriteLine("\nOdaberite između sljedećih akcija: ");
 
-            CurrentUser.User = new();
-            ActionsHelper.GenericMenu(InputsList,"");
-        }*/
-        public static void MyProfile() { }
+                List<Template> actions = new()
+                {
+                    new() { Status = InputStatus.WaitingForInput, Name = "Pretraži po imenu", Function = () => UserActions.SearchName() },
+                    new() { Status = InputStatus.WaitingForInput, Name = "Pretraži po prezimenu", Function = () => UserActions.SearchSurname() },
+                    new() { Status = InputStatus.WaitingForInput, Name = "Pretraži po korisničkom imenu", Function = () => UserActions.SearchUsername() },
+                    new() { Status = InputStatus.WaitingForInput, Name = "Odaberi korisnika", Function = () => UserActions.ChooseUser() },
+                    new() { Status = InputStatus.WaitingForInput, Name = "Povratak u meni", Function = () => ActionsCaller.PrintMenuAndDoAction(ActionsCaller.DashboardActions) }
+                };
+                SetActionCallabilityStatus(actions);
+                ActionsHelper.GenericMenu(actions);
+            }
+        }
+        public static void SetActionCallabilityStatus(List<Template> actions)
+        {
+            switch (CurrentUser.Users.Count)
+            {
+                case > 1:
+                    break;
+                case 1:
+                    actions.RemoveAt(0);
+                    actions.RemoveAt(0);
+                    actions.RemoveAt(0);
+                    break;
+                default:
+                    actions.RemoveAt(0);
+                    actions.RemoveAt(0);
+                    actions.RemoveAt(0);
+                    actions.RemoveAt(0);
+                    break;
+            }
+        }
+        public static void MyProfile()
+        {
+            CurrentUser.SearchedUser = CurrentUser.User;
+
+            List<Template> actions = new()
+            {
+                new() { Status = InputStatus.WaitingForInput, Name = "Edit username", Function = () => UserActions.EditUsername() },
+                new() { Status = InputStatus.WaitingForInput, Name = "Edit name", Function = () => UserActions.EditName() },
+                new() { Status = InputStatus.WaitingForInput, Name = "Edit surname", Function = () => UserActions.EditSurname() },
+                new() { Status = InputStatus.WaitingForInput, Name = "Edit password", Function = () => UserActions.EditPassword() },
+                new() { Status = InputStatus.WaitingForInput, Name = "Povratak u meni", Function = () => ActionsCaller.PrintMenuAndDoAction(ActionsCaller.DashboardActions) }
+            };
+            var userString = CurrentUser.UserToStringWithPassword(CurrentUser.SearchedUser);
+            ActionsHelper.GenericMenuAndMessage(actions, userString);
+        }
         public static void LogOut()
         {
             CurrentUser.User = new();

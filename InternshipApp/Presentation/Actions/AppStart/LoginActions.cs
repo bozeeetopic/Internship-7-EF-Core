@@ -7,6 +7,7 @@ using Presentation.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Presentation.Actions.AppStart
 {
@@ -20,11 +21,13 @@ namespace Presentation.Actions.AppStart
             if (CurrentUser.User is null)
             {
                 Console.WriteLine("Ne postoji korisnik sa unesenim korisničkim imenom!");
+                Thread.Sleep(1000);
                 return;
             }
             if (CurrentUser.User.BannedUntil > DateTime.Now)
             {
                 Console.WriteLine("Korištenje aplikacije je trenutno zabranjeno navedenom korisniku!");
+                Thread.Sleep(1000);
                 return;
             }
             actions[0].Status = InputStatus.Done;

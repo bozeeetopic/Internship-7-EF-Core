@@ -94,5 +94,30 @@ namespace Presentation.Helpers
             }
             return false;
         }
+        public static int DaysInMonth(int month, int year)
+        {
+            if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) return 31;
+            else if (month == 4 || month == 6 || month == 9 || month == 11) return 30;
+            else
+            {
+                if (year % 4 == 0)
+                {
+                    if (year % 100 == 0)
+                    {
+                        if (year % 400 == 0) return 29;
+                        return 28;
+                    }
+                    return 29;
+                }
+                return 28;
+            }
+        }
+        public static DateTime UserDateInput()
+        {
+            var year = UserNumberInput("godinu", 1, 2100);
+            var month = UserNumberInput("mjesec", 1, 12);
+            var day = UserNumberInput("dan", 1, DaysInMonth(month, year));
+            return new DateTime(year, month, day, 0, 0, 0);
+        }
     }
 }

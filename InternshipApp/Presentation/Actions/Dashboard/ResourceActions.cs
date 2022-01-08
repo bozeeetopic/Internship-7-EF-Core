@@ -8,7 +8,7 @@ using Domain.Factories;
 using Domain.Repositories;
 using System.Linq;
 using Presentation.Enums;
-using Presentation.Actions.Dashboard.Resource;
+using Presentation.Actions.Resource;
 
 namespace Presentation.Actions.Dashboard
 {
@@ -24,7 +24,8 @@ namespace Presentation.Actions.Dashboard
         };
         public static void ChooseDomain()
         {
-            for(var index = 0; index < _resourceDomainList.Count; index++)
+            Console.Clear();
+            for (var index = 0; index < _resourceDomainList.Count; index++)
             {
                 Console.WriteLine($"{index+1} - {_resourceDomainList[index].Item1}");
             }
@@ -65,6 +66,7 @@ namespace Presentation.Actions.Dashboard
         }
         public static void EnterResource() 
         {
+            Console.Clear();
             Console.WriteLine("Redni broj - Naslov\tPodručje\tDatum\tBroj pregleda");
             var i = 1;
             foreach(var resource in CurrentResource.Resources)
@@ -93,6 +95,7 @@ namespace Presentation.Actions.Dashboard
         }
         public static void AddResource()
         {
+            Console.Clear();
             List<Template> actions = new()
             {
                 new() { Status = InputStatus.WaitingForInput, Name = "Unos naslova", Function = null },
