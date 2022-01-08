@@ -166,26 +166,26 @@ namespace Presentation.Actions.Comment
             {
                 if (isUpvote)
                 {
-                    user.ReputationPoints = ReduceReputationPoints(user.ReputationPoints, 15);
+                    user.ReputationPoints = ChangeReputationPoints(user.ReputationPoints, 15);
                     if (Domain.Models.Comments.CurrentComment.ParentComment == null)
                     {
-                        Users.CurrentUser.ReputationPoints = ReduceReputationPoints(Users.CurrentUser.ReputationPoints, 10);
+                        Users.CurrentUser.ReputationPoints = ChangeReputationPoints(Users.CurrentUser.ReputationPoints, 10);
                     }
                     else
                     {
-                        Users.CurrentUser.ReputationPoints = ReduceReputationPoints(Users.CurrentUser.ReputationPoints, 5);
+                        Users.CurrentUser.ReputationPoints = ChangeReputationPoints(Users.CurrentUser.ReputationPoints, 5);
                     }
                 }
                 else
                 {
-                    Users.CurrentUser.ReputationPoints = ReduceReputationPoints(Users.CurrentUser.ReputationPoints,-1);
+                    Users.CurrentUser.ReputationPoints = ChangeReputationPoints(Users.CurrentUser.ReputationPoints,-1);
                     if (Domain.Models.Comments.CurrentComment.ParentComment == null)
                     {
-                        user.ReputationPoints = ReduceReputationPoints(user.ReputationPoints,-2);
+                        user.ReputationPoints = ChangeReputationPoints(user.ReputationPoints,-2);
                     }
                     else
                     {
-                        user.ReputationPoints = ReduceReputationPoints(user.ReputationPoints,-3);
+                        user.ReputationPoints = ChangeReputationPoints(user.ReputationPoints,-3);
                     }
                 }
                 UserServices.Edit(Users.CurrentUser);
@@ -202,7 +202,7 @@ namespace Presentation.Actions.Comment
             }
             CommentServices.Edit();
         }
-        private static int ReduceReputationPoints(int reputationPoints, int addition)
+        private static int ChangeReputationPoints(int reputationPoints, int addition)
         {
             if(reputationPoints >= 100000)
             {

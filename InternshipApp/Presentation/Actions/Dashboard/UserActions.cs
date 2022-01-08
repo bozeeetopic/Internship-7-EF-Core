@@ -21,8 +21,8 @@ namespace Presentation.Actions.Dashboard
             {
                 List<Template> actions = new()
                 {
-                    new() { Status = InputStatus.WaitingForInput, Name = "Aktiviraj korisnika", Function = () => ActivateUser(DateTime.Now) },
-                    new() { Status = InputStatus.WaitingForInput, Name = "Deaktiviraj korisnika", Function = () => ActivateUser(Reader.UserDateInput()) },
+                    new() { Status = InputStatus.Warning, Name = "Aktiviraj korisnika", Function = () => ActivateUser(DateTime.Now) },
+                    new() { Status = InputStatus.Warning, Name = "Deaktiviraj korisnika", Function = () => ActivateUser(Reader.UserDateInput()) },
                     new() { Status = InputStatus.WaitingForInput, Name = "Povratak u korisnike", Function = () => DashboardActions.Users() },
                     new() { Status = InputStatus.WaitingForInput, Name = "Povratak u meni", Function = () => ActionsCaller.PrintMenuAndDoAction(DashboardActions.DashboardActionsList) }
                 };

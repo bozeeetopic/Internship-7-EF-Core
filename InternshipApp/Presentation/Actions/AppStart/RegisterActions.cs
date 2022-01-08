@@ -6,6 +6,7 @@ using Presentation.Enums;
 using Presentation.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Presentation.Actions.AppStart
 {
@@ -18,6 +19,7 @@ namespace Presentation.Actions.AppStart
             if (userExists)
             {
                 Console.WriteLine("Postoji korisnik sa unesenim korisničkim imenom!");
+                Thread.Sleep(1000);
                 return;
             }
             Users.CurrentUser.Username = username;

@@ -38,6 +38,7 @@ namespace Presentation.Actions.AppStart
             if (Users.CurrentUser.Password != password)
             {
                 Console.WriteLine("Krivo unesena lozinka!");
+                Thread.Sleep(1000);
                 return;
             }
             actions[1].Status = InputStatus.Done;

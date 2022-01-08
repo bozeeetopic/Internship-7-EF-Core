@@ -4,7 +4,6 @@ using Presentation.Actions.ActionHelpers;
 using Presentation.Actions.Comment;
 using Presentation.Actions.Dashboard;
 using Presentation.Enums;
-using Presentation.Helpers;
 using System;
 using System.Collections.Generic;
 
@@ -30,7 +29,7 @@ namespace Presentation.Actions.Resource
         }
         public static void SetActionCallabilityStatus(List<Template> actions)
         {
-            if (Domain.Models.Comments.CommentsList.Count == 0)
+            if (Comments.CommentsList.Count == 0)
             {
                 actions.RemoveAt(1);
             }
@@ -50,7 +49,7 @@ namespace Presentation.Actions.Resource
             };
             actions[0].Function = () => OneCommentActions.SetText(actions);
 
-            Domain.Models.Comments.InsertingComment = new();
+            Comments.InsertingComment = new();
             ActionsHelper.GenericMenuAndMessage(actions, "");
         }
     }
