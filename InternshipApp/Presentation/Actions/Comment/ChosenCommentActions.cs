@@ -13,23 +13,27 @@ namespace Presentation.Actions.Comment
     {
         public static void CommentActions()
         {
-            Console.Clear();
-            List<Template> actions = new()
+            while (true)
             {
-                new() { Status = InputStatus.WaitingForInput, Name = "Dodaj komentar", Function = () => AddComment() },
-                new() { Status = InputStatus.Warning, Name = "Briši komentar", Function = () => OneCommentActions.DeleteComment() },
-                new() { Status = InputStatus.WaitingForInput, Name = "Editaj komentar", Function = () => EditCommentActions() },
-                new() { Status = InputStatus.WaitingForInput, Name = "Dodaj upvote", Function = () => AddReaction(true) },
-                new() { Status = InputStatus.WaitingForInput, Name = "Dodaj downvote", Function = () => AddReaction(false) },
-                new() { Status = InputStatus.WaitingForInput, Name = "Uđi u odgovore", Function = () => EnterComment() },
-                new() { Status = InputStatus.WaitingForInput, Name = "Povratak u prethodni komentar", Function = () => GoToPreviousComment() },
-                new() { Status = InputStatus.WaitingForInput, Name = "Povratak u resurse", Function = () => DashboardActions.ListResourceActions() },
-                new() { Status = InputStatus.WaitingForInput, Name = "Povratak u meni", Function = () => ActionsCaller.PrintMenuAndDoAction(DashboardActions.DashboardActionsList) }
-            };
-            GetCommentsFromDB();
-            SetActionCallabilityStatus(actions);
-            var commentString = Domain.Models.Comments.CommentToString(Domain.Models.Comments.CurrentComment);
-            ActionsHelper.GenericMenuAndMessage(actions, commentString);
+                Console.Clear();
+                List<Template> actions = new()
+                {
+                    new() { Status = InputStatus.WaitingForInput, Name = "Dodaj komentar", Function = () => AddComment() },
+                    new() { Status = InputStatus.Warning, Name = "Briši komentar", Function = () => OneCommentActions.DeleteComment() },
+                    new() { Status = InputStatus.WaitingForInput, Name = "Editaj komentar", Function = () => EditCommentActions() },
+                    new() { Status = InputStatus.WaitingForInput, Name = "Dodaj upvote", Function = () => AddReaction(true) },
+                    new() { Status = InputStatus.WaitingForInput, Name = "Dodaj downvote", Function = () => AddReaction(false) },
+                    new() { Status = InputStatus.WaitingForInput, Name = "Uđi u odgovore", Function = () => EnterComment() },
+                    new() { Status = InputStatus.WaitingForInput, Name = "Povratak u prethodni komentar", Function = () => GoToPreviousComment() },
+                    new() { Status = InputStatus.WaitingForInput, Name = "Povratak u resurse", Function = () => DashboardActions.ListResourceActions() },
+                    new() { Status = InputStatus.WaitingForInput, Name = "Povratak u meni", Function = () => ActionsCaller.PrintMenuAndDoAction(DashboardActions.DashboardActionsList) }
+                };
+                GetCommentsFromDB();
+                SetActionCallabilityStatus(actions);
+                var commentString = Comments.CommentToString(Comments.CurrentComment);
+                Console.WriteLine(commentString);
+                ActionsHelper.GenericMenu(actions);
+            }
         }
         public static void CheckForReactions(List<Template> actions)
         {
