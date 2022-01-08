@@ -141,7 +141,7 @@ namespace Presentation.Helpers.Intro
         }
         public static void EnlargeConsolePart(double width, double heigth)
         {
-            while (width + 2 < Console.LargestWindowWidth)
+            while (width + 2 <= Console.LargestWindowWidth)
             {
                 width += 2;
                 heigth += 0.4;

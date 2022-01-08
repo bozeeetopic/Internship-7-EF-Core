@@ -33,24 +33,24 @@ namespace Presentation.Actions.Resource
         }
         public static void AddResource()
         {
-            Resources.CurrentResource.Date = DateTime.Now;
-            Resources.CurrentResource.Author = Users.CurrentUser;
+            Resources.ChangingResource.Date = DateTime.Now;
+            Resources.ChangingResource.AuthorId = Users.CurrentUser.Id;
             ResourceServices.Add();
             DashboardActions.ListResourceActions();
         }
         public static void SetHeader(List<Template> actions)
         {
-            Resources.CurrentResource.Header = UserPropertiesInput(actions, 0);
+            Resources.ChangingResource.Header = UserPropertiesInput(actions, 0);
         }
         public static void SetText(List<Template> actions)
         {
-            Resources.CurrentResource.Text = UserPropertiesInput(actions, 1);
+            Resources.ChangingResource.Text = UserPropertiesInput(actions, 1);
         }
         public static void SetDomain(List<Template> actions)
         {
             var currentValue = Resources.ResourceDomain;
             ResourceActions.ChooseDomain();
-            Resources.CurrentResource.Domain = Resources.ResourceDomain;
+            Resources.ChangingResource.Domain = Resources.ResourceDomain;
             Resources.ResourceDomain = currentValue;
             actions[2].Status = InputStatus.Done;
             actions[4].Status = InputStatus.Warning;

@@ -38,7 +38,7 @@ namespace Domain.Services
         }
         public static void Add()
         {
-            RepositoryFactory.Create<ResourceBase>().Add(Resources.CurrentResource);
+            RepositoryFactory.Create<ResourceBase>().Add(Resources.ChangingResource);
         }
         public static void SetPopularResources()
         {

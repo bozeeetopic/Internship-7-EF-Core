@@ -12,6 +12,7 @@ namespace Domain.Models
         public static ResourceDomain ResourceDomain { get; set; }
         public static bool ListAll { get; set; }
         public static Resource CurrentResource { get; set; }
+        public static Resource ChangingResource { get; set; }
         public static List<Resource> ResourcesList { get; set; }
         public static List<Resource> PopularResourcesList { get; set; }
         public static string ResourceToString(Resource resource)

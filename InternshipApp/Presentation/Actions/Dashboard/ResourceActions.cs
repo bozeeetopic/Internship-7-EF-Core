@@ -76,6 +76,7 @@ namespace Presentation.Actions.Dashboard
         }
         public static void AddResource()
         {
+            Resources.ChangingResource = new();
             Console.Clear();
             List<Template> actions = new()
             {
