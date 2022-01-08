@@ -13,9 +13,9 @@ namespace Presentation.Actions.Dashboard
     {
         public static void ChooseUser()
         {
-                var chosenUser = Reader.UserNumberInput(" redni broj korisnika", 1, Users.UsersList.Count);
-
-                Users.SearchedUser = Users.UsersList[chosenUser];
+            var chosenUser = Reader.UserNumberInput(" redni broj korisnika", 1, Users.UsersList.Count)-1;
+            UserServices.SetUsers();
+            Users.SearchedUser = Users.UsersList[chosenUser];
 
             while (true)
             {
@@ -88,17 +88,17 @@ namespace Presentation.Actions.Dashboard
         public static void SearchName()
         {
             var name = Reader.UserStringInput("pretraživano ime", "", 1);
-            UserServices.SearchName(name);
+            UserServices.SearchName(name.ToLower().Trim());
         }
         public static void SearchUsername()
         {
             var username = Reader.UserStringInput("pretraživano korisničko ime", "", 1);
-            UserServices.SearchUsername(username);
+            UserServices.SearchUsername(username.ToLower().Trim());
         }
         public static void SearchSurname()
         {
             var surname = Reader.UserStringInput("pretraživano prezime", "", 1);
-            UserServices.SearchSurame(surname);
+            UserServices.SearchSurame(surname.ToLower().Trim());
         }
         public static void ActivateUser(DateTime date)
         {

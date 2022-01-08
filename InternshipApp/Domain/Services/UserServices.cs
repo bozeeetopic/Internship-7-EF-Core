@@ -2,7 +2,6 @@
 using Domain.Factories;
 using Domain.Models;
 using Domain.Repositories;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Domain.Services
@@ -70,15 +69,15 @@ namespace Domain.Services
         }
         public static void SearchName(string name)
         {
-            Users.UsersList = Users.UsersList.Where(n => n.Name.Contains(name)).ToList();
+            Users.UsersList = Users.UsersList.Where(n => n.Name.ToLower().Trim().Contains(name)).ToList();
         }
         public static void SearchSurame(string surname)
         {
-            Users.UsersList = Users.UsersList.Where(n => n.Surname.Contains(surname)).ToList();
+            Users.UsersList = Users.UsersList.Where(n => n.Surname.ToLower().Trim().Contains(surname)).ToList();
         }
         public static void SearchUsername(string username)
         {
-            Users.UsersList = Users.UsersList.Where(n => n.Username.Contains(username)).ToList();
+            Users.UsersList = Users.UsersList.Where(n => n.Username.ToLower().Trim().Contains(username)).ToList();
         }
 
     }

@@ -13,61 +13,59 @@ namespace Presentation.Actions.Comment
     {
         public static void AddComment()
         {
-            Comments.InsertingComment.UpVotes = 0;
-            Comments.InsertingComment.DownVotes = 0;
-            Comments.InsertingComment.ResourceId = Resources.CurrentResource.Id;
-            Comments.InsertingComment.Date = DateTime.Now;
-            Comments.InsertingComment.AuthorId = Users.CurrentUser.Id;
+            Comments.CommentBeingWorkedOn.UpVotes = 0;
+            Comments.CommentBeingWorkedOn.DownVotes = 0;
+            Comments.CommentBeingWorkedOn.ResourceId = Resources.CurrentResource.Id;
+            Comments.CommentBeingWorkedOn.Date = DateTime.Now;
+            Comments.CommentBeingWorkedOn.AuthorId = Users.CurrentUser.Id;
             CommentServices.AddComment();
 
             ChosenResourceActions.ResourceActions();
         }
         public static void AddComment(int parentCommentId)
         {
-            Comments.InsertingComment.CommentId = parentCommentId;
+            Comments.CommentBeingWorkedOn.CommentId = parentCommentId;
             AddComment();
         }
         public static void SetText(List<Template> actions)
         {
-            Comments.InsertingComment.Text = Reader.UserStringInput(actions[0].Name, "", 1);
+            Comments.CommentBeingWorkedOn.Text = Reader.UserStringInput(actions[0].Name, "", 1);
             actions[0].Status = InputStatus.Done;
             actions[1].Status = InputStatus.WaitingForInput;
             actions[2].Status = InputStatus.Warning;
         }
         public static void EditComment()
         {
-            Comments.CurrentComment.Text = Comments.InsertingComment.Text;
+            Comments.CurrentComment.Text = Comments.CommentBeingWorkedOn.Text;
             CommentServices.Edit();
 
             ChosenCommentActions.CommentActions();
         }
         public static void DeleteComment()
         {
-            if(Comments.CurrentComment.ParentComment == null)
+            Comments.CommentBeingWorkedOn = new();
+            if (Comments.CurrentComment.ParentComment == null)
             {
                 DeleteCommentRecursively();
                 ChosenResourceActions.ResourceActions();
             }
             else
             {
-                var parentComment = CommentServices.ReturnPreviousComment();
-
+                Comments.CurrentComment = CommentServices.ReturnPreviousComment();
                 DeleteCommentRecursively();
-                Comments.CurrentComment = parentComment;
                 ChosenCommentActions.CommentActions();
             }
         }
         public static void DeleteCommentRecursively()
         {
-            var commentToDelete = Comments.CurrentComment;
-            var comments = CommentServices.GetComments();
+            var commentToDelete = Comments.CommentBeingWorkedOn;
+            var comments = CommentServices.GetComments(commentToDelete.Id);
             foreach(var comment in comments)
             {
-                Comments.CurrentComment = comment;
+                Comments.CommentBeingWorkedOn = comment;
                 DeleteCommentRecursively();
             }
-            Comments.CurrentComment = commentToDelete;
-            CommentServices.Delete(Comments.CurrentComment.Id);
+            CommentServices.Delete(commentToDelete.Id);
         }
     }
 }

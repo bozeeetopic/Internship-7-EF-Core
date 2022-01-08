@@ -9,7 +9,7 @@ namespace Domain.Models
     public static class Comments
     {
         public static Comment CurrentComment { get; set; }
-        public static Comment InsertingComment { get; set; }
+        public static Comment CommentBeingWorkedOn { get; set; }
         public static List<Comment> CommentsList { get; set; }
         public static string CommentToString(Comment comment)
         {

@@ -138,7 +138,7 @@ namespace Presentation.Actions.Comment
                 new() { Status = InputStatus.WaitingForInput, Name = "Odustani", Function = () => CommentActions() }
             };
             actions[0].Function = () => OneCommentActions.SetText(actions);
-            Domain.Models.Comments.InsertingComment = new();
+            Domain.Models.Comments.CommentBeingWorkedOn = new();
 
             ActionsHelper.GenericMenuAndMessage(actions, "");
         }

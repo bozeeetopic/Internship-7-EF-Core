@@ -49,7 +49,7 @@ namespace Presentation.Actions.Resource
             };
             actions[0].Function = () => OneCommentActions.SetText(actions);
 
-            Comments.InsertingComment = new();
+            Comments.CommentBeingWorkedOn = new();
             ActionsHelper.GenericMenuAndMessage(actions, "");
         }
     }

@@ -39,7 +39,7 @@ namespace Presentation.Actions.ActionHelpers
                 if(actions.Count == 1)
                 {
                 Console.WriteLine("Postoji samo jedan izbor!");
-                Thread.Sleep(1000);
+                Thread.Sleep(1500);
                 actions[0].Function();
             }
                 var choiceActionIndex = Reader.UserNumberInput(" vaš izbor", 1, actions.Count) - 1;

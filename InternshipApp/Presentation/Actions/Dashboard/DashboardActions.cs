@@ -67,6 +67,7 @@ namespace Presentation.Actions.Dashboard
         }
         public static void Users()
         {
+            Console.Clear();
             UserServices.SetUsers();
             while (true)
             {
@@ -77,7 +78,7 @@ namespace Presentation.Actions.Dashboard
                 {
                     if (user.ReputationPoints >= 1000)
                     {
-                        ConsoleHelpers.WriteInColor($"{i} - {user.Username}", ConsoleColor.Cyan);
+                        ConsoleHelpers.WriteInColor($"{i} - {user.Username}\n", ConsoleColor.Cyan);
                     }
                     else
                     {
@@ -120,18 +121,22 @@ namespace Presentation.Actions.Dashboard
         }
         public static void MyProfile()
         {
-            Domain.Models.Users.SearchedUser = Domain.Models.Users.CurrentUser;
-
-            List<Template> actions = new()
+            while (true)
             {
-                new() { Status = InputStatus.WaitingForInput, Name = "Edit username", Function = () => UserActions.EditUsername() },
-                new() { Status = InputStatus.WaitingForInput, Name = "Edit name", Function = () => UserActions.EditName() },
-                new() { Status = InputStatus.WaitingForInput, Name = "Edit surname", Function = () => UserActions.EditSurname() },
-                new() { Status = InputStatus.WaitingForInput, Name = "Edit password", Function = () => UserActions.EditPassword() },
-                new() { Status = InputStatus.WaitingForInput, Name = "Povratak u meni", Function = () => ActionsCaller.PrintMenuAndDoAction(DashboardActionsList) }
-            };
-            var userString = Domain.Models.Users.UserToStringWithPassword(Domain.Models.Users.SearchedUser);
-            ActionsHelper.GenericMenuAndMessage(actions, userString);
+                Domain.Models.Users.SearchedUser = Domain.Models.Users.CurrentUser;
+                Console.Clear();
+                List<Template> actions = new()
+                {
+                    new() { Status = InputStatus.WaitingForInput, Name = "Edit username", Function = () => UserActions.EditUsername() },
+                    new() { Status = InputStatus.WaitingForInput, Name = "Edit name", Function = () => UserActions.EditName() },
+                    new() { Status = InputStatus.WaitingForInput, Name = "Edit surname", Function = () => UserActions.EditSurname() },
+                    new() { Status = InputStatus.WaitingForInput, Name = "Edit password", Function = () => UserActions.EditPassword() },
+                    new() { Status = InputStatus.WaitingForInput, Name = "Povratak u meni", Function = () => ActionsCaller.PrintMenuAndDoAction(DashboardActionsList) }
+                };
+                var userString = Domain.Models.Users.UserToStringWithPassword(Domain.Models.Users.SearchedUser);
+                Console.WriteLine(userString);
+                ActionsHelper.GenericMenu(actions);
+            }
         }
         public static void LogOut()
         {

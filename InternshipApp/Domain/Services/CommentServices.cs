@@ -35,12 +35,12 @@ namespace Domain.Services
                 .Where(ci => ci.Id == Comments.CurrentComment.CommentId)
                 .FirstOrDefault();
         }
-        public static List<Comment> GetComments()
+        public static List<Comment> GetComments(int id)
         {
             return RepositoryFactory
                 .Create<CommentBase>()
                 .GetAll()
-                .Where(ci => ci.CommentId == Comments.CurrentComment.Id)
+                .Where(ci => ci.CommentId == id)
                 .ToList();
         }
         public static void Edit()
@@ -51,7 +51,7 @@ namespace Domain.Services
         }
         public static void AddComment()
         {
-            RepositoryFactory.Create<CommentBase>().Add(Comments.InsertingComment);
+            RepositoryFactory.Create<CommentBase>().Add(Comments.CommentBeingWorkedOn);
         }
         public static void Delete(int id)
         {
