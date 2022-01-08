@@ -69,9 +69,9 @@ namespace Presentation.Helpers
                 }
                 if (repeatedInput && ConsoleHelpers.ForbiddenStringChecker(input.Trim().ToLower(), forbiddenString))
                 {
-                    Console.Write("Unos sadrži broj ili znak, moraju biti ");
-                    ConsoleHelpers.WriteInColor("isključivo", ConsoleColor.Red);
-                    Console.WriteLine(" slova!");
+                    Console.Write("Unos sadrži ");
+                    ConsoleHelpers.WriteInColor("zabranjeni", ConsoleColor.Red);
+                    Console.WriteLine(" znak! ("+forbiddenString+")");
                     linesToDelete++;
                 }
 

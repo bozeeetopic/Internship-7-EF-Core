@@ -25,26 +25,10 @@ namespace Domain.Repositories
             {
                 return ResponseResultType.NotFound;
             }
-            edittingResource.Header = resource.Header;
-            edittingResource.Text = resource.Text;
-            edittingResource.Domain = resource.Domain;
             edittingResource.SeenCounter = resource.SeenCounter;
 
             return SaveChanges();
         }
-        public ResponseResultType Delete(int resourceId)
-        {
-            var deletingResource = DbContext.Resources.Find(resourceId);
-            if (deletingResource is null)
-            {
-                return ResponseResultType.NotFound;
-            }
-
-            DbContext.Resources.Remove(deletingResource);
-
-            return SaveChanges();
-        }
-
         public ICollection<Resource> GetAll() => DbContext.Resources.ToList();
     }
 }

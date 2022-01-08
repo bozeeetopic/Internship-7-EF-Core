@@ -6,11 +6,18 @@ using Presentation.Actions.ActionHelpers;
 using Presentation.Enums;
 using System.Collections.Generic;
 using Domain.Models;
+using Presentation.Actions.Dashboard;
 
 namespace Presentation.Actions.AppStart
 {
-    public static class AppStartAction
+    public static class AppStartActions
     {
+        public static readonly List<(string, Action)> AppStartActionsList = new()
+        {
+            { ("Login", () => AppStart.AppStartActions.Login()) },
+            { ("Register", () => AppStart.AppStartActions.Register()) },
+            { ("Exit", () => AppStart.AppStartActions.Exit()) }
+        };
         public static void Login()
         {
             Console.Clear();
@@ -18,8 +25,8 @@ namespace Presentation.Actions.AppStart
             {   
                 new(){ Status = InputStatus.WaitingForInput,Name= "Unos korisničkog imena", Function = null},
                 new() { Status = InputStatus.Error, Name = "Unos šifre", Function = null},
-                new() { Status = InputStatus.Error, Name = "Login", Function = () => ActionsCaller.PrintMenuAndDoAction(ActionsCaller.DashboardActions) },
-                new() { Status = InputStatus.WaitingForInput, Name = "Izlaz", Function = () => ActionsCaller.PrintMenuAndDoAction(ActionsCaller.AppStartActions) }
+                new() { Status = InputStatus.Error, Name = "Login", Function = () => ActionsCaller.PrintMenuAndDoAction(DashboardActions.DashboardActionsList) },
+                new() { Status = InputStatus.WaitingForInput, Name = "Izlaz", Function = () => ActionsCaller.PrintMenuAndDoAction(AppStartActionsList) }
             };
             actions[0].Function = () => LoginActions.UsernameInput(actions);
             actions[1].Function = () => LoginActions.PasswordInput(actions);
@@ -36,14 +43,14 @@ namespace Presentation.Actions.AppStart
                 new() { Status = InputStatus.WaitingForInput, Name = "Unos imena", Function = null },
                 new() { Status = InputStatus.WaitingForInput, Name = "Unos prezimena", Function = null },
                 new() { Status = InputStatus.Error, Name = "Register", Function = () => RegisterActions.Register() },
-                new() { Status = InputStatus.WaitingForInput, Name = "Izlaz", Function = () => ActionsCaller.PrintMenuAndDoAction(ActionsCaller.AppStartActions) }
+                new() { Status = InputStatus.WaitingForInput, Name = "Izlaz", Function = () => ActionsCaller.PrintMenuAndDoAction(AppStartActionsList) }
             };
             actions[0].Function = () => RegisterActions.UsernameInput(actions);
             actions[1].Function = () => RegisterActions.SetPassword(actions);
             actions[2].Function = () => RegisterActions.SetName(actions);
             actions[3].Function = () => RegisterActions.SetSurname(actions);
 
-            CurrentUser.User = new();
+            Users.CurrentUser = new();
             ActionsHelper.GenericMenuAndMessage(actions,"");
         }
         public static void Exit()

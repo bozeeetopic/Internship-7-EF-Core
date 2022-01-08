@@ -32,18 +32,6 @@ namespace Domain.Repositories
 
             return SaveChanges();
         }
-        public ResponseResultType Delete(int memberId)
-        {
-            var deletingMember = DbContext.Members.Find(memberId);
-            if (deletingMember is null)
-            {
-                return ResponseResultType.NotFound;
-            }
-
-            DbContext.Members.Remove(deletingMember);
-
-            return SaveChanges();
-        }
 
         public ICollection<Member> GetAll() => DbContext.Members.ToList();
     }

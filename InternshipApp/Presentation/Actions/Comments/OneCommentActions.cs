@@ -1,13 +1,11 @@
-﻿using Domain.Factories;
-using Domain.Models;
-using Domain.Repositories;
+﻿using Domain.Models;
+using Domain.Services;
 using Presentation.Actions.ActionHelpers;
-using Presentation.Actions.Dashboard.Resource;
+using Presentation.Actions.Resource;
 using Presentation.Enums;
 using Presentation.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Presentation.Actions.Comments
 {
@@ -15,70 +13,61 @@ namespace Presentation.Actions.Comments
     {
         public static void AddComment()
         {
-            CurrentComment.InsertingComment.UpVotes = 0;
-            CurrentComment.InsertingComment.DownVotes = 0;
-            CurrentComment.InsertingComment.ResourceId = CurrentResource.Resource.Id;
-            CurrentComment.InsertingComment.Date = DateTime.Now;
-            CurrentComment.InsertingComment.AuthorId = CurrentUser.User.Id;
-            RepositoryFactory.Create<CommentBase>().Add(CurrentComment.InsertingComment);
+            Domain.Models.Comments.InsertingComment.UpVotes = 0;
+            Domain.Models.Comments.InsertingComment.DownVotes = 0;
+            Domain.Models.Comments.InsertingComment.ResourceId = Resources.CurrentResource.Id;
+            Domain.Models.Comments.InsertingComment.Date = DateTime.Now;
+            Domain.Models.Comments.InsertingComment.AuthorId = Users.CurrentUser.Id;
+            CommentServices.AddComment();
 
             ChosenResourceActions.ResourceActions();
         }
         public static void AddComment(int parentCommentId)
         {
-            CurrentComment.InsertingComment.CommentId = parentCommentId;
+            Domain.Models.Comments.InsertingComment.CommentId = parentCommentId;
             AddComment();
         }
         public static void SetText(List<Template> actions)
         {
-            CurrentComment.InsertingComment.Text = Reader.UserStringInput(actions[0].Name, "", 1);
+            Domain.Models.Comments.InsertingComment.Text = Reader.UserStringInput(actions[0].Name, "", 1);
             actions[0].Status = InputStatus.Done;
             actions[1].Status = InputStatus.WaitingForInput;
             actions[2].Status = InputStatus.Warning;
         }
         public static void EditComment()
         {
-            var text = CurrentComment.InsertingComment.Text;
-            CurrentComment.InsertingComment = CurrentComment.Comment;
-            CurrentComment.InsertingComment.Text = text;
-            RepositoryFactory.Create<CommentBase>().Edit(CurrentComment.InsertingComment,CurrentComment.Comment.Id);
+            Domain.Models.Comments.CurrentComment.Text = Domain.Models.Comments.InsertingComment.Text;
+            CommentServices.Edit();
 
             ChosenCommentActions.CommentActions();
         }
         public static void DeleteComment()
         {
-            if(CurrentComment.Comment.ParentComment == null)
+            if(Domain.Models.Comments.CurrentComment.ParentComment == null)
             {
                 DeleteCommentRecursively();
                 ChosenResourceActions.ResourceActions();
             }
             else
             {
-                var parentComment = RepositoryFactory
-                .Create<CommentBase>()
-                .GetAll()
-                .Where(ci => ci.Id == CurrentComment.Comment.CommentId)
-                .FirstOrDefault();
+                var parentComment = CommentServices.ReturnPreviousComment();
 
                 DeleteCommentRecursively();
-                CurrentComment.Comment = parentComment;
+                Domain.Models.Comments.CurrentComment = parentComment;
                 ChosenCommentActions.CommentActions();
             }
         }
         public static void DeleteCommentRecursively()
         {
-            var commentToDelete = CurrentComment.Comment;
-            var comments = RepositoryFactory
-                .Create<CommentBase>()
-                .GetAll()
-                .Where(ci => ci.CommentId == CurrentComment.Comment.Id);
+            var commentToDelete = Domain.Models.Comments.CurrentComment;
+            var comments = CommentServices.GetComments();
             foreach(var comment in comments)
             {
-                CurrentComment.Comment = comment;
+                Domain.Models.Comments.CurrentComment = comment;
                 DeleteCommentRecursively();
             }
-            CurrentComment.Comment = commentToDelete;
-            RepositoryFactory.Create<CommentBase>().Delete(commentToDelete.Id);
+            Domain.Models.Comments.CurrentComment = commentToDelete;
+            CommentServices.Delete(Domain.Models.Comments.CurrentComment.Id);
         }
     }
 }

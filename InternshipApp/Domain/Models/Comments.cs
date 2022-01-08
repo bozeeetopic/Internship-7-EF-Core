@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace Domain.Models
 {
-    public static class CurrentComment
+    public static class Comments
     {
-        public static Comment Comment { get; set; }
+        public static Comment CurrentComment { get; set; }
         public static Comment InsertingComment { get; set; }
-        public static List<Comment> Comments { get; set; }
+        public static List<Comment> CommentsList { get; set; }
         public static string CommentToString(Comment comment)
         {
             var authorUsername = RepositoryFactory

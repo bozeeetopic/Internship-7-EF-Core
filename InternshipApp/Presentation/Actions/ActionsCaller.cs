@@ -1,29 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Presentation.Actions.AppStart;
-using Presentation.Actions.Dashboard;
 using Presentation.Helpers;
-using Data.Entities.Enums;
 
 namespace Presentation.Actions
 {
    public static class ActionsCaller
     {
-        public static readonly List<(string, Action)> AppStartActions = new()
-        {
-            { ("Login", () => AppStartAction.Login() )},
-            { ("Register", () => AppStartAction.Register() )},
-            { ("Exit", () => AppStartAction.Exit()) }
-        };
-        public static readonly List<(string, Action)> DashboardActions = new()
-        {
-            { ("Resursi", () => Dashboard.DashboardActions.ChooseDomainAndListResourceAction(true)) },
-            { ("Korisnici", () => Dashboard.DashboardActions.Users() )},
-            { ("Neodgovoreno", () => Dashboard.DashboardActions.ChooseDomainAndListResourceAction(false)) },
-            { ("Moj profil", () => Dashboard.DashboardActions.MyProfile()) },
-            { ("Logout", () => Dashboard.DashboardActions.LogOut())},
-        };
-
         public static void PrintMenuAndDoAction(List<(string name, Action action)> actions)
         {
             Console.Clear();

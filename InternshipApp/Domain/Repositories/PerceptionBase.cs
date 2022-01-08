@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Data.Entities;
-using Domain.Models;
+﻿using Data.Entities;
 using System.Linq;
 using Domain.Enums;
 using Data.Entities.Models;
@@ -8,9 +6,9 @@ using System.Collections.Generic;
 
 namespace Domain.Repositories
 {
-    public class PerceiveBase : RepositoryBase
+    public class PerceptionBase : RepositoryBase
     {
-        public PerceiveBase(InternshipAppDbContext dbContext) : base(dbContext)
+        public PerceptionBase(InternshipAppDbContext dbContext) : base(dbContext)
         {
         }
 

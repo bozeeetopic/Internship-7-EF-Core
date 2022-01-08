@@ -19,12 +19,6 @@ namespace Domain.Repositories
 
             return SaveChanges();
         }
-        public ResponseResultType Edit(int reactionId, bool isUpvote)
-        {
-            var edittingReaction = DbContext.Reactions.Find(reactionId);
-            edittingReaction.IsUpVote = isUpvote;
-            return SaveChanges();
-        }
 
         public ICollection<Reaction> GetAll() => DbContext.Reactions.ToList();
     }

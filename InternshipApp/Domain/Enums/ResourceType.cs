@@ -15,23 +15,23 @@ namespace Domain.Enums
         }
         public static void Set(ResourceTypes choice)
         {
-            CurrentResource.Resource = new();
+            Resources.CurrentResource = new();
             switch (choice)
             {
                 case ResourceTypes.Dev:
-                    CurrentResource.ResourceDomain = ResourceDomain.Dev;
+                    Resources.ResourceDomain = ResourceDomain.Dev;
                     break;
                 case ResourceTypes.Marketing:
-                    CurrentResource.ResourceDomain = ResourceDomain.Marketing;
+                    Resources.ResourceDomain = ResourceDomain.Marketing;
                     break;
                 case ResourceTypes.Multimedia:
-                    CurrentResource.ResourceDomain = ResourceDomain.Multimedia;
+                    Resources.ResourceDomain = ResourceDomain.Multimedia;
                     break;
                 case ResourceTypes.Design:
-                    CurrentResource.ResourceDomain = ResourceDomain.Design;
+                    Resources.ResourceDomain = ResourceDomain.Design;
                     break;
                 case ResourceTypes.General:
-                    CurrentResource.ResourceDomain = ResourceDomain.General;
+                    Resources.ResourceDomain = ResourceDomain.General;
                     break;
                 default:
                     break;

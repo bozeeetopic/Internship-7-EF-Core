@@ -1,6 +1,5 @@
-﻿using Domain.Factories;
-using Domain.Models;
-using Domain.Repositories;
+﻿using Domain.Models;
+using Domain.Services;
 using Presentation.Actions.ActionHelpers;
 using Presentation.Actions.Dashboard;
 using Presentation.Enums;
@@ -34,25 +33,25 @@ namespace Presentation.Actions.Resource
         }
         public static void AddResource()
         {
-            CurrentResource.Resource.Date = DateTime.Now;
-            CurrentResource.Resource.Author = CurrentUser.User;
-            RepositoryFactory.Create<ResourceBase>().Add(CurrentResource.Resource);
+            Resources.CurrentResource.Date = DateTime.Now;
+            Resources.CurrentResource.Author = Users.CurrentUser;
+            ResourceServices.Add();
             DashboardActions.ListResourceActions();
         }
         public static void SetHeader(List<Template> actions)
         {
-            CurrentResource.Resource.Header = UserPropertiesInput(actions, 1);
+            Resources.CurrentResource.Header = UserPropertiesInput(actions, 1);
         }
         public static void SetText(List<Template> actions)
         {
-            CurrentResource.Resource.Text = UserPropertiesInput(actions, 2);
+            Resources.CurrentResource.Text = UserPropertiesInput(actions, 2);
         }
         public static void SetDomain(List<Template> actions)
         {
-            var currentValue = CurrentResource.ResourceDomain;
+            var currentValue = Resources.ResourceDomain;
             ResourceActions.ChooseDomain();
-            CurrentResource.Resource.Domain = CurrentResource.ResourceDomain;
-            CurrentResource.ResourceDomain = currentValue;
+            Resources.CurrentResource.Domain = Resources.ResourceDomain;
+            Resources.ResourceDomain = currentValue;
             actions[2].Status = InputStatus.Done;
             actions[4].Status = InputStatus.Warning;
             AllInputsDone(actions);

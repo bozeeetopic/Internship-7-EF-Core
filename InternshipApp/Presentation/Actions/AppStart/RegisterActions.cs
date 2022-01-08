@@ -1,12 +1,11 @@
-﻿using Domain.Factories;
-using Domain.Models;
-using Domain.Repositories;
+﻿using Domain.Models;
+using Domain.Services;
 using Presentation.Actions.ActionHelpers;
+using Presentation.Actions.Dashboard;
 using Presentation.Enums;
 using Presentation.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Presentation.Actions.AppStart
 {
@@ -14,14 +13,15 @@ namespace Presentation.Actions.AppStart
     {
         public static void UsernameInput(List<Template> actions)
         {
-            CurrentUser.User.Username = Reader.UserStringInput("username", "", 1);
-            var UsernameChecker = RepositoryFactory.Create<MemberBase>().GetAll()
-                .FirstOrDefault(p => p.Username == CurrentUser.User.Username);
-            if (UsernameChecker is not null)
+            var username = Reader.UserStringInput("username", "", 1);
+            var userExists = UserServices.UserExists(username);
+            if (userExists)
             {
                 Console.WriteLine("Postoji korisnik sa unesenim korisničkim imenom!");
                 return;
             }
+            Users.CurrentUser.Username = username;
+
             actions[0].Status = InputStatus.Done;
             actions[5].Status = InputStatus.Warning;
             AllInputsDone(actions);
@@ -49,26 +49,20 @@ namespace Presentation.Actions.AppStart
         }
         public static void Register()
         {
-            CurrentUser.User.ReputationPoints = 1;
-            RepositoryFactory.Create<MemberBase>().Add(CurrentUser.User);
-            CurrentUser.User = RepositoryFactory
-                .Create<MemberBase>()
-                .GetAll()
-                .Where(u => u.Username == CurrentUser.User.Username)
-                .FirstOrDefault();
-            ActionsCaller.PrintMenuAndDoAction(ActionsCaller.DashboardActions);
+            UserServices.RegisterUser();
+            ActionsCaller.PrintMenuAndDoAction(DashboardActions.DashboardActionsList);
         }
         public static void SetPassword(List<Template> actions)
         {
-            CurrentUser.User.Password = UserPropertiesInput(actions, 1);
+            Users.CurrentUser.Password = UserPropertiesInput(actions, 1);
         }
         public static void SetName(List<Template> actions)
         {
-            CurrentUser.User.Name = UserPropertiesInput(actions, 2);
+            Users.CurrentUser.Name = UserPropertiesInput(actions, 2);
         }
         public static void SetSurname(List<Template> actions)
         {
-            CurrentUser.User.Surname = UserPropertiesInput(actions, 3);
+            Users.CurrentUser.Surname = UserPropertiesInput(actions, 3);
         }
 
     }

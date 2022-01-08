@@ -1,22 +1,28 @@
-﻿using Domain.Factories;
-using Domain.Models;
-using Domain.Repositories;
+﻿using Domain.Models;
+using Domain.Services;
 using Presentation.Actions.ActionHelpers;
-using Presentation.Actions.User;
+using Presentation.Actions.AppStart;
 using Presentation.Enums;
 using Presentation.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Presentation.Actions.Dashboard
 {
     public static class DashboardActions
     {
+        public static readonly List<(string, Action)> DashboardActionsList = new()
+        {
+            { ("Resursi", () => ChooseDomainAndListResourceAction(true)) },
+            { ("Korisnici", () => Users()) },
+            { ("Neodgovoreno", () => ChooseDomainAndListResourceAction(false)) },
+            { ("Moj profil", () => MyProfile()) },
+            { ("Logout", () => LogOut()) },
+        };
         public static void ChooseDomainAndListResourceAction(bool listingAll)
         {
             ResourceActions.ChooseDomain();
-            CurrentResource.ListAll = listingAll;
+            Resources.ListAll = listingAll;
 
             ListResourceActions();
         }
@@ -27,7 +33,7 @@ namespace Presentation.Actions.Dashboard
             {
                 new() { Status = InputStatus.WaitingForInput, Name = "Dodaj resurs", Function = () => ResourceActions.AddResource() },
                 new() { Status = InputStatus.WaitingForInput, Name = "Uđi u resurs", Function = () => ResourceActions.EnterResource() },
-                new() { Status = InputStatus.WaitingForInput, Name = "Povratak u meni", Function = () => ActionsCaller.PrintMenuAndDoAction(ActionsCaller.DashboardActions) }
+                new() { Status = InputStatus.WaitingForInput, Name = "Povratak u meni", Function = () => ActionsCaller.PrintMenuAndDoAction(DashboardActionsList) }
             };
             ResourceActions.GetResourcesFromDB();
             ResourceActions.SetActionCallabilityStatus(actions);
@@ -36,14 +42,13 @@ namespace Presentation.Actions.Dashboard
         }
         public static void Users()
         {
-            CurrentUser.Users = RepositoryFactory
-                        .Create<MemberBase>().GetAll().ToList();
+            UserServices.SetUsers();
             while (true)
             {
                 Console.Clear();
                 Console.WriteLine("Redni broj - Korisničko ime");
                 var i = 1;
-                foreach (var user in CurrentUser.Users)
+                foreach (var user in Domain.Models.Users.UsersList)
                 {
                     if (user.ReputationPoints >= 1000)
                     {
@@ -63,7 +68,7 @@ namespace Presentation.Actions.Dashboard
                     new() { Status = InputStatus.WaitingForInput, Name = "Pretraži po prezimenu", Function = () => UserActions.SearchSurname() },
                     new() { Status = InputStatus.WaitingForInput, Name = "Pretraži po korisničkom imenu", Function = () => UserActions.SearchUsername() },
                     new() { Status = InputStatus.WaitingForInput, Name = "Odaberi korisnika", Function = () => UserActions.ChooseUser() },
-                    new() { Status = InputStatus.WaitingForInput, Name = "Povratak u meni", Function = () => ActionsCaller.PrintMenuAndDoAction(ActionsCaller.DashboardActions) }
+                    new() { Status = InputStatus.WaitingForInput, Name = "Povratak u meni", Function = () => ActionsCaller.PrintMenuAndDoAction(DashboardActionsList) }
                 };
                 SetActionCallabilityStatus(actions);
                 ActionsHelper.GenericMenu(actions);
@@ -71,7 +76,7 @@ namespace Presentation.Actions.Dashboard
         }
         public static void SetActionCallabilityStatus(List<Template> actions)
         {
-            switch (CurrentUser.Users.Count)
+            switch (Domain.Models.Users.UsersList.Count)
             {
                 case > 1:
                     break;
@@ -90,7 +95,7 @@ namespace Presentation.Actions.Dashboard
         }
         public static void MyProfile()
         {
-            CurrentUser.SearchedUser = CurrentUser.User;
+            Domain.Models.Users.SearchedUser = Domain.Models.Users.CurrentUser;
 
             List<Template> actions = new()
             {
@@ -98,15 +103,15 @@ namespace Presentation.Actions.Dashboard
                 new() { Status = InputStatus.WaitingForInput, Name = "Edit name", Function = () => UserActions.EditName() },
                 new() { Status = InputStatus.WaitingForInput, Name = "Edit surname", Function = () => UserActions.EditSurname() },
                 new() { Status = InputStatus.WaitingForInput, Name = "Edit password", Function = () => UserActions.EditPassword() },
-                new() { Status = InputStatus.WaitingForInput, Name = "Povratak u meni", Function = () => ActionsCaller.PrintMenuAndDoAction(ActionsCaller.DashboardActions) }
+                new() { Status = InputStatus.WaitingForInput, Name = "Povratak u meni", Function = () => ActionsCaller.PrintMenuAndDoAction(DashboardActionsList) }
             };
-            var userString = CurrentUser.UserToStringWithPassword(CurrentUser.SearchedUser);
+            var userString = Domain.Models.Users.UserToStringWithPassword(Domain.Models.Users.SearchedUser);
             ActionsHelper.GenericMenuAndMessage(actions, userString);
         }
         public static void LogOut()
         {
-            CurrentUser.User = new();
-            ActionsCaller.PrintMenuAndDoAction(ActionsCaller.AppStartActions);
+            Domain.Models.Users.CurrentUser = new();
+            ActionsCaller.PrintMenuAndDoAction(AppStartActions.AppStartActionsList);
         }
     }
 }

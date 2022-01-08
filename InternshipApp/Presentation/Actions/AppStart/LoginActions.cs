@@ -1,12 +1,10 @@
-﻿using Domain.Factories;
-using Domain.Models;
-using Domain.Repositories;
+﻿using Domain.Models;
+using Domain.Services;
 using Presentation.Actions.ActionHelpers;
 using Presentation.Enums;
 using Presentation.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 
 namespace Presentation.Actions.AppStart
@@ -16,15 +14,14 @@ namespace Presentation.Actions.AppStart
         public static void UsernameInput(List<Template> actions)
         {
             var username = Reader.UserStringInput("Unesi korisničko ime", "", 1);
-            CurrentUser.User = RepositoryFactory.Create<MemberBase>().GetAll()
-                .FirstOrDefault(p => p.Username == username);
-            if (CurrentUser.User is null)
+            UserServices.SetCurrentUserWithUsername(username);
+            if (Users.CurrentUser is null)
             {
                 Console.WriteLine("Ne postoji korisnik sa unesenim korisničkim imenom!");
                 Thread.Sleep(1000);
                 return;
             }
-            if (CurrentUser.User.BannedUntil > DateTime.Now)
+            if (Users.CurrentUser.BannedUntil > DateTime.Now)
             {
                 Console.WriteLine("Korištenje aplikacije je trenutno zabranjeno navedenom korisniku!");
                 Thread.Sleep(1000);
@@ -38,7 +35,7 @@ namespace Presentation.Actions.AppStart
         public static void PasswordInput(List<Template> actions)
         {
             var password = Reader.UserStringInput("lozinku", "", 0);
-            if (CurrentUser.User.Password != password)
+            if (Users.CurrentUser.Password != password)
             {
                 Console.WriteLine("Krivo unesena lozinka!");
                 return;
