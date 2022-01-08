@@ -19,6 +19,18 @@ namespace Domain.Repositories
 
             return SaveChanges();
         }
+        public ResponseResultType Delete(int reactionId)
+        {
+            var deletingReaction = DbContext.Reactions.Find(reactionId);
+            if (deletingReaction is null)
+            {
+                return ResponseResultType.NotFound;
+            }
+
+            DbContext.Reactions.Remove(deletingReaction);
+
+            return SaveChanges();
+        }
 
         public ICollection<Reaction> GetAll() => DbContext.Reactions.ToList();
     }

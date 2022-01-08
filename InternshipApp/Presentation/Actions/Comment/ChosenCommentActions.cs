@@ -34,7 +34,7 @@ namespace Presentation.Actions.Comment
         public static void CheckForReactions(List<Template> actions)
         {
             var reactionExists = ReactionServices.ReactionExists();
-            if(!reactionExists)
+            if(reactionExists)
             {
                 actions[3].Status = InputStatus.Error;
                 actions[4].Status = InputStatus.Error;

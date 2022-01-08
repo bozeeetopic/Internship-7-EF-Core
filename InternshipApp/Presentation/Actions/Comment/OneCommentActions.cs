@@ -43,7 +43,7 @@ namespace Presentation.Actions.Comment
         }
         public static void DeleteComment()
         {
-            Comments.CommentBeingWorkedOn = new();
+            Comments.CommentBeingWorkedOn = Comments.CurrentComment;
             if (Comments.CurrentComment.ParentComment == null)
             {
                 DeleteCommentRecursively();
@@ -59,11 +59,20 @@ namespace Presentation.Actions.Comment
         public static void DeleteCommentRecursively()
         {
             var commentToDelete = Comments.CommentBeingWorkedOn;
-            var comments = CommentServices.GetComments(commentToDelete.Id);
-            foreach(var comment in comments)
+
+            if(commentToDelete != null)
             {
-                Comments.CommentBeingWorkedOn = comment;
-                DeleteCommentRecursively();
+                var reactions = ReactionServices.ReturnReactionsFromComment(commentToDelete.Id);
+                foreach (var reaction in reactions)
+                {
+                    ReactionServices.Delete(reaction.Id);
+                }
+                var comments = CommentServices.GetComments(commentToDelete.Id);
+                foreach (var comment in comments)
+                {
+                    Comments.CommentBeingWorkedOn = comment;
+                    DeleteCommentRecursively();
+                }
             }
             CommentServices.Delete(commentToDelete.Id);
         }

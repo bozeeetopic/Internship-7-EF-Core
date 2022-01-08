@@ -2,6 +2,7 @@
 using Domain.Factories;
 using Domain.Models;
 using Domain.Repositories;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Domain.Services
@@ -36,6 +37,20 @@ namespace Domain.Services
             RepositoryFactory
                 .Create<ReactionBase>()
                 .Add(userId, commentId, isUpvote);
+        }
+        public static List<Reaction> ReturnReactionsFromComment(int commentId)
+        {
+            return RepositoryFactory
+                .Create<ReactionBase>()
+                .GetAll()
+                .Where(ci => ci.CommentId == commentId)
+                .ToList();
+        }
+        public static void Delete(int reactionId)
+        {
+            RepositoryFactory
+                .Create<ReactionBase>()
+                .Delete(reactionId);
         }
     }
 }
