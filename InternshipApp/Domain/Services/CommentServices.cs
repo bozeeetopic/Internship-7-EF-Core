@@ -2,6 +2,7 @@
 using Domain.Factories;
 using Domain.Models;
 using Domain.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -55,6 +56,15 @@ namespace Domain.Services
         public static void Delete(int id)
         {
             RepositoryFactory.Create<CommentBase>().Delete(id);
+        }
+        public static int GetCommentsCount(int resourceId)
+        {
+            return RepositoryFactory
+                .Create<CommentBase>()
+                .GetAll()
+                .Where(ri => ri.ResourceId == resourceId)
+                .Where(ri => DateTime.Now.Subtract(ri.Date).Days < 1)
+                .Count();
         }
     }
 }

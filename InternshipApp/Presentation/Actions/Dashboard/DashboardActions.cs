@@ -16,9 +16,33 @@ namespace Presentation.Actions.Dashboard
             { ("Resursi", () => ChooseDomainAndListResourceAction(true)) },
             { ("Korisnici", () => Users()) },
             { ("Neodgovoreno", () => ChooseDomainAndListResourceAction(false)) },
+            { ("Popularno", () => Popular()) },
             { ("Moj profil", () => MyProfile()) },
             { ("Logout", () => LogOut()) },
         };
+        public static void Popular()
+        {
+            ResourceServices.SetPopularResources();
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("Redni broj - Naslov\t\tAutor\t\tBroj komentara");
+                var i = 1;
+                foreach (var resource in Resources.ResourcesList)
+                {
+                    Console.WriteLine($"{i} - {resource.Header}\t\t{resource.Author.Name}\t\t{CommentServices.GetCommentsCount(resource.Id)}");
+                }
+                Console.WriteLine("\nOdaberite između sljedećih akcija: ");
+
+                List<Template> actions = new()
+                {
+                    new() { Status = InputStatus.WaitingForInput, Name = "Uđi u resurs", Function = () => ResourceActions.EnterResource() },
+                    new() { Status = InputStatus.WaitingForInput, Name = "Povratak u meni", Function = () => ActionsCaller.PrintMenuAndDoAction(DashboardActionsList) }
+                };
+                SetActionCallabilityStatus(actions);
+                ActionsHelper.GenericMenu(actions);
+            }
+        }
         public static void ChooseDomainAndListResourceAction(bool listingAll)
         {
             ResourceActions.ChooseDomain();

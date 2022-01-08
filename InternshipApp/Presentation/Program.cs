@@ -1,5 +1,5 @@
 ﻿using Presentation.Actions;
-using Presentation.Helpers;
+using Presentation.Actions.AppStart;
 using Presentation.Helpers.Intro;
 
 namespace PaymentManager.Presentation
@@ -8,8 +8,8 @@ namespace PaymentManager.Presentation
     {
         static void Main()
         {
-            //IntroAnimation.PrintIntro( 100, 300);
-            //ActionsCaller.PrintMenuAndDoAction(ActionsCaller.AppStartActions);
+            IntroAnimation.PrintIntro( 100, 300);
+            ActionsCaller.PrintMenuAndDoAction(AppStartActions.AppStartActionsList);
         }
     }
 }

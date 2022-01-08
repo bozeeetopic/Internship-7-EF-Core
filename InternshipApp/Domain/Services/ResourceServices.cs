@@ -40,5 +40,26 @@ namespace Domain.Services
         {
             RepositoryFactory.Create<ResourceBase>().Add(Resources.CurrentResource);
         }
+        public static void SetPopularResources()
+        {
+            List<(Resource, int)> ResourceComments = new();
+            var allResources = RepositoryFactory
+                .Create<ResourceBase>()
+                .GetAll().ToList();
+            List<int> commentCounter = new();
+            foreach(var resource in allResources)
+            {
+                commentCounter.Add(CommentServices.GetCommentsCount(resource.Id));
+            }
+            for(var index = 0; index < allResources.Count; index++)
+            {
+                ResourceComments.Add((allResources[index],commentCounter[index]));
+            }
+            ResourceComments = ResourceComments.OrderBy(i => i.Item2).ToList();
+            foreach(var resourceComment in ResourceComments)
+            {
+                Resources.ResourcesList.Add(resourceComment.Item1);
+            }
+        }
     }
 }
