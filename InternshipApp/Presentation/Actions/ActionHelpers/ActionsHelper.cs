@@ -36,6 +36,12 @@ namespace Presentation.Actions.ActionHelpers
         {
                 PrintActionsColored(actions);
                 Console.WriteLine();
+                if(actions.Count == 1)
+                {
+                Console.WriteLine("Postoji samo jedan izbor!");
+                Thread.Sleep(1000);
+                actions[0].Function();
+            }
                 var choiceActionIndex = Reader.UserNumberInput(" vaš izbor", 1, actions.Count) - 1;
                 switch (actions[choiceActionIndex].Status)
                 {
